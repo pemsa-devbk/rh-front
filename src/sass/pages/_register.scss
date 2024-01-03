@@ -1,0 +1,350 @@
+.title {
+    max-width: 20%;
+    text-align: start;
+
+    &__container {
+        width: 100%;
+        margin: 0 30px;
+        padding: 10px;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+        color: #F3F7FC;
+        border-radius: 5px;
+        background-color: #374274c6;
+
+        &::after {
+            content: "";
+            display: block;
+            max-width: 100px;
+            height: 2px;
+            background-color: rgb(198, 196, 211);
+            margin-top: 10px;
+        }
+
+    }
+}
+
+
+.register {
+    width: 50%;
+    height: 70%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 10px;
+    z-index: 10;
+
+    &--addUser {
+        width: 90%;
+        border: 1px solid rgba(157, 157, 159, 0.656);
+        background-color: rgba(214, 215, 218, 0.357);
+    }
+
+    &--viewUser {
+        width: 80%;
+        height: 70%;
+        margin: 0 auto;
+        justify-content: space-evenly;
+        background-color: rgb(240, 240, 242);
+        box-shadow: none;
+    }
+
+    &--registerContact {
+        width: 55%;
+        height: 70%;
+        border-radius: 10px;
+        background-color: rgba(214, 215, 218, 0.357);
+        border: 1px solid rgba(157, 157, 159, 0.656);
+        justify-content: space-evenly;
+    }
+
+
+    &__texts {
+        width: 95%;
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 10px;
+
+        &-submitForm {
+            width: 20%;
+            height: 35px;
+            margin-top: 2px;
+            color: #F3F7FC;
+            background-color: #5200b0c2;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        &--addUser {
+            width: 100%;
+            min-width: 800px;
+            height: 90%;
+            gap: 1px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        
+        //  TODO 
+        // textarea{
+        //     resize: none;
+        // }
+
+        &--textsContact {
+            justify-content: flex-start;
+            width: 50%;
+            min-width: 300px;
+            height: 100%;
+            border-right: 1px solid #374274ab;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-y: auto;
+           
+        }
+
+        &-encabezados {
+            width: 50%;
+            height: 50%;
+            font-size: 11.5px;
+            color: #723894;
+            text-align: left;
+            border: none;
+            z-index: -8;
+        }
+
+        &-username {
+            width: 100%;
+            height: 45px;
+            padding: 5px;
+            font-size: 15px;
+            border-radius: 5px;
+            border: 1px solid rgb(198, 197, 197);
+            letter-spacing: 0.2px;
+            text-transform: capitalize;
+            color: #374274;
+
+            &--contacts {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                //min-width: 100px;
+                height: 25%;
+                min-height: 130px;
+                padding: 10px;
+                background-color: #fff;
+            }
+
+            &--contContactos {
+                height: 100%;
+                width: 100%;
+                border: 1px solid #37427439;
+                background-color: #37427439;
+            }
+
+            //icons contacts
+            &--optionContact {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+                border: none;
+                width: 15%;
+                height: 100%;
+            }
+
+
+
+            &--contactViewUser {
+                width: 100%;
+                border: none;
+            }
+        }
+
+        &--contactDesc {
+            height: 15%;
+            width: 80%;
+            align-self: center;
+            padding: 5px;
+            font-size: 13px;
+            border-radius: 5px;
+            border: none;
+            letter-spacing: 0.2px;
+        }
+    }
+
+    &__photo {
+        width: 20%;
+        height: 36%;
+        max-height: 155px;
+        display: flex;
+
+        &-user {
+            width: 160px;
+            height: 100%;
+            min-width: 150px;
+            min-height: 100%;
+            align-self: center;
+            border: 1px solid #00006669;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        &--viewUser {
+            
+            padding: 5px;
+            height: 40%;
+            border-radius: 50px;
+        }
+
+        &-button {
+            width: 70%;
+            height: 10%;
+            flex-direction: row;
+            justify-content: center;
+            border: none;
+            border-radius: 1px;
+            // background-color: rgb(125, 70, 70);
+            color: #7a7d80;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            // &:hover {
+            //     transform: scale(1.01);
+            // }
+        }
+    }
+
+    &__button {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+
+        margin: 0 auto;
+
+        &-mod {
+            width: 20%;
+            align-self: end;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: #000066e8;
+            color: #F3F7FC;
+            letter-spacing: 1px;
+            border: none;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.01);
+            }
+
+            &--hover:hover {
+                background-color: rgb(241, 77, 77);
+            }
+
+            &--styleColor {
+                background-color: #035eba;
+            }
+
+            &--colorViewuser {
+                background-color: #7a53db;
+            }
+
+            &--saveButton {
+                width: 30%;
+                margin: 0 10px 0 0;
+                background-color: #374274;
+            }
+        }
+    }
+}
+
+
+.register__texts-inputBox {
+    width: 23%;
+    min-width: 200px;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.register__texts-inputBox input {
+    width: 100%;
+    height: 70%;
+    padding: 10px;
+    border: 1px solid rgba(157, 157, 159, 0.656);
+
+    border-radius: 10px;
+    outline: none;
+    font-size: 1em;
+    text-transform: capitalize;
+    color: #3f3f3f;
+}
+
+.register__texts-inputBox span {
+    position: absolute;
+    left: 0;
+    padding: 5px 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: #5e5e5e;
+    transition: 0.3s;
+}
+
+.register__texts-inputBox input:valid~span,
+.register__texts-inputBox input:focus~span {
+    color: #F3F7FC;
+    background-color: #374274;
+    //background-color: #8892eb;
+    border-left: 1px solid #374274;
+    border-right: 1px solid #374274;
+    border-radius: 5px;
+    transform: translateX(15px) translateY(-22px);
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+}
+
+.register__texts-inputBox input:valid,
+.register__texts-inputBox input:focus {
+    border-color: #374274;
+}
+
+//------------- span and select
+.register__texts-inputBox select {
+    width: 100%;
+    height: 70%;
+    padding: 5px 10px;
+    border: 1px solid #374274;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1em;
+    text-transform: capitalize;
+    color: #3f3f3f;
+}
+
+.register__texts-inputBox select:valid~span,
+.register__texts-inputBox select:focus~span {
+    color: #F3F7FC;
+    background-color: #374274;
+    border-radius: 5px;
+
+    border-left: 1px solid #374274;
+    border-right: 1px solid #374274;
+    transform: translateX(15px) translateY(-22px);
+    font-size: 0.7em;
+    letter-spacing: 0.1em;
+}
+
+.register__texts-inputBox select:valid,
+.register__texts-inputBox select:focus {
+    border-color: #374274;
+}

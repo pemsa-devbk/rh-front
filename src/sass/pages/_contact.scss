@@ -1,0 +1,43 @@
+
+
+.register__texts{
+
+    &--textsContact2 {
+        width: 50%;
+        min-width: 200px;
+        text-align: center;
+        padding: 15px;
+        overflow-y: auto;
+    }
+}
+
+.register__texts-contact{
+    font-size: 13px;
+    &--title{
+        font-size: 15px;
+        font-weight: bold;
+    }
+}
+
+.picture__edit-img{
+    width: 25px;
+    filter: invert(17%) sepia(48%) saturate(2987%) hue-rotate(228deg) brightness(89%) contrast(92%);
+    &--trash{
+        width: 25px;
+    }
+}
+
+svg{
+    //fill: #4354ee;
+    fill: #374274;
+}
+
+#description{
+    max-width: 500px;
+    max-height: 40px;
+    align-self: center;
+    border: 1px solid #374274;
+    background-color: #fff;
+}
+
+

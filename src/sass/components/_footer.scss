@@ -1,0 +1,29 @@
+.footer {
+    grid-column: 1/-1;
+    grid-row: 3/4;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-primary-logo);
+
+    &__picture {
+        width: 35%;
+       
+    }
+
+    &__img {
+        width: 35%;
+        min-width: 200px;
+        padding: 15px;
+    }
+
+    &__paragraph {
+        width: 50%;
+        color: #F3F7FC;
+    }
+   
+    &__text {
+        letter-spacing: 1px;
+        font-size: 11px;
+    }
+}
+

@@ -1,0 +1,15 @@
+@import './base/normalize';
+@import './base/base';
+
+@import './pages/login';
+@import './pages/home';
+@import './pages/users-info';
+@import './pages/register';
+@import './pages/contact';
+@import './pages/viewUser';
+@import './pages/editUser';
+
+
+@import './components/header';
+@import './components/navbar';
+@import './components/footer';
