@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
                         </div>
                     },
                     {
-                        path:"editarUsuario",
+                        path:"editarUsuario/:id",
                         element: <div className="container__body container__body--editUser" > 
                             <EditUser/>
                         </div>

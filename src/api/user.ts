@@ -52,6 +52,21 @@ export const createContact = async (dataS:{id:string; data:any}) => {
     return data;
 }
 
+export const deleteContact = async (id:string ) => {
+    const { data } = await instance.delete(`contact/${id}`);
+    return data;
+}
+export const getContacts = async (id:string) => {
+    const { data } = await instance.get<Contact>(`contact/${id}`);
+    return data
+}
+ 
+export const actualizaContact = async (id:string) => {
+    const { data } = await instance.patch<Contact>(`contact/${id}`);
+    return data
+}
+
+
 export const getStates = async () =>{
     const {data} = await instance.get<{states:Array<State>}>('config/states');
     return data.states
@@ -59,12 +74,12 @@ export const getStates = async () =>{
 
 export const getRoles = async () => {
     const {data} = await instance.get<UserRoles>('config/roles');
-    return data.roles
+    return data.roles;
 }
 
 export const getAllBloodTypes = async () => {
     const { data } = await instance.get<BloodType>('config/blood-types');
-    return data
+    return data;
 }
 
 
@@ -75,7 +90,6 @@ export const deleteSoftUser = async (id:string) =>{
 
 export const reintegroUser = async (id:string) => {
     const {data} = await instance.patch(`users/reintegro/${id}`);
-  
     return data;
 }
 
@@ -83,8 +97,6 @@ export const actualizaUser = async (datas:{id:string; data:FormData}) => {
     const {data} = await instance.patch(`users/edit/${datas.id}`, datas.data);
     return data
 }
-
-
 
 const sleep = ()=>{
     //añadir un rej como parámero adicional en Promise

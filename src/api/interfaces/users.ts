@@ -6,25 +6,26 @@ export interface SimpleUser {
     id: string;
     name: string;
     position: string;
-    phone: null | string;
+    phone?: string;
     birthdate: Date;
     curp: string;
-    address: null | string;
+    address?:  string;
     bloodType: BloodType ;
-    allergies: Allergies | null;
-    nss: null | string;
+    allergies?: Allergies ;
+    nss?:  string;
     urlPhoto: string;
-    cuip: null | string;
+    cuip?:  string;
     rol: Rol;
     status: boolean;
     upDateAt: Date;
     createdAt: Date;
-    deletedAt: null;
-    state: State | null;
+    deletedAt?: Date;
+    state?: State ;
 }
 
 interface UserChief {
     name: string;
+    id: string;
 }
 export interface ResponseBloodTypes{
     bloodTypes: BloodType[];

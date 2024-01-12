@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query"
-import { actualizaUser, createContact, createUser, deleteSoftUser, getAllBloodTypes, getRoles, getStates, getUser, getUsers, reintegroUser } from "../api/user"
+import { actualizaContact, actualizaUser, createContact, createUser, deleteContact, deleteSoftUser, getAllBloodTypes, getContacts, getRoles, getStates, getUser, getUsers, reintegroUser } from "../api/user"
 
 
 export const useUsers = () => {
@@ -29,6 +29,23 @@ export const useCreateContact = () => {
         mutationFn: createContact
     })
 }
+
+export const useDeleteContact = ( ) => {
+    return useMutation({
+        mutationFn: deleteContact
+    })
+}
+ export const useContact = () => {
+    return useMutation({
+        mutationFn: getContacts
+    })
+ }
+
+ export const useUpDateContact = () => {
+    return useMutation ({
+        mutationFn: actualizaContact
+    })
+ }
 
 export const useDeleteUser = () => {
     return useMutation({

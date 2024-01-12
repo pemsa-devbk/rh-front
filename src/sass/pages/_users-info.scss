@@ -46,19 +46,34 @@
         align-self: center;
         background-color: #000066ef;
         fill: #F3F7FC;
-        width: 50%;
-        height: 40%;
+        width: 52%;
+        height: 50%;
         padding: 5px;
         border-radius: 10px;
     }
 }
 
 
+.search{
+    
+    text-align: right;
+    width: 80%;
+    margin:  0 auto;
+    padding: 0.5rem 0;
+    input{
+        width: 30%;
+        padding: 0.3rem 0.5rem;
+        border: 1px solid #0000666e;
+        border-radius: 5px;
+    }
+}
+
 .table {
     width: 80%;
     margin: 0 auto;
     border-spacing: 0;
-    background-color: rgba(214, 215, 218, 0.357);
+    //background-color: rgba(214, 215, 218, 0.357);
+    background-color: #3742741d;
 
     &__header-container {
         width: 100%;
@@ -137,8 +152,9 @@
 
 
 .toogle {
-    padding-bottom: 5px;
-    display: none;
+    padding-bottom: 50px;
+    display: flex;
+    bottom: 5px;
 
 }
 
@@ -183,4 +199,11 @@ input:checked+.slider::before {
 .slider.slider.round::before {
     text-align: center;
     border-radius: 50%;
+}
+
+
+
+.download{
+    border:none;
+    background-color: transparent;
 }

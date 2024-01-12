@@ -36,32 +36,35 @@
 
     &--users {
         //background-image: linear-gradient(to right, rgba(138, 154, 221, 0.396), rgba(128, 143, 203, 0.396));
-        background-color: #f7f7f9;
+        background-color: #ffffffe2;
         justify-content: start;
     }
 
     &--register {
         justify-content: space-evenly;
         //background-color: rgba(243, 246, 251, 0.608);
-        background-color: #f7f7f9;
+        background-color: #ffffffe2;
 
     }
 
     &--contact {
         justify-content: space-evenly;
-        background-color: #f7f7f9;
+        background-color: #ffffffe2;
+        //background-color: #f7f7f9;
 
     }
 
     &--mostrarInfo {
         justify-content: space-evenly;
-        background-color: #f7f7f9;
+        background-color: #ffffffe2;
+
 
     }
 
     &--editUser {
         justify-content: space-evenly;
-        background-color: #f7f7f9;
+        background-color: #ffffffe2;
+
     }
 
 }
