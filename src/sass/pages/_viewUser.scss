@@ -1,6 +1,6 @@
 // ! Verificar eliminación
 .container__info {
-    
+
     padding: 1rem 0;
     width: 100%;
     display: flex;
@@ -116,6 +116,7 @@
 }
 
 .register__texts-username {
+
     //hereda contorno de username
     &--shortnameT {
         display: flex;
@@ -128,7 +129,7 @@
         text-align: left;
         background-color: #374274c9;
         color: #F3F7FC;
-        border: none ;
+        border: none;
 
         border-top-left-radius: 9px;
         border-bottom-left-radius: 9px;
@@ -212,7 +213,7 @@
     min-height: 130px;
     margin: 0;
     padding: 5px;
-    
+
     font-size: 15px;
     border-radius: 5px;
     border: 1px solid rgb(198, 197, 197);
@@ -223,34 +224,85 @@
 }
 
 
-.viewuser{
+.viewuser {
     // background: #000;
     width: 90%;
-    max-width: 1000px;
+    margin: 2rem auto 0 auto;
+    // max-width: 1200px;
     display: flex;
+    border-radius: 20px;
+    border-radius: 10px;
+    overflow: hidden;
     
+    // border: 1px solid rgba(128, 128, 128, 0.183);
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, .2);
 
-    &__media{
+
+
+    &__media {
         flex-basis: 300px;
         background: #fff;
-        border: 1px solid red;
+        border-right: 1px solid rgba(128, 128, 128, 0.183);
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding: 1rem;
+        justify-content: center;
     }
-    &__picture{
+
+    &__picture {
         width: 150px;
         height: 150px;
         overflow: hidden;
         border-radius: 100%;
     }
-    &__img{
+
+    &__img {
         margin: 0 auto;
+        // width: 100%;
+        height: 100%;
         width: 100%;
         object-fit: contain;
     }
 
-    &__information{
+    &__name {
+        margin-top: 1.2rem;
+        font-size: 1.2rem;
+    }
+
+    &__information {
         flex: 1;
     }
+
+    &__box {
+        border-bottom: 1px solid rgba(128, 128, 128, 0.183);
+        padding: 1.2rem 0;
+    }
+
+    &__data {
+        display: flex;
+    }
+
+    &__subtitle {
+        font-size: 16px;
+        color: grey;
+        margin-bottom: .5rem;
+        padding: 0 1rem;
+    }
+
+    &__text{
+        padding: 0 1rem;
+        flex: 1;
+        p {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.738);
+            span {
+                font-weight: bold;
+            }
+        }
+
+    }
+    
+
+
 }

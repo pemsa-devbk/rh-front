@@ -22,21 +22,85 @@ export default function ViewUser() {
                     <div className="viewuser__picture">
                         <img className="viewuser__img" src={data?.urlPhoto} alt="photo-user" />
                     </div>
-                    <p>{data?.name}</p>
+                    <p className='viewuser__name'>{data?.name}</p>
                 </section>
 
                 <section className='viewuser__information'>
                     <article className='viewuser__box'>
-                        <p>Información de perfil</p>
+                        <p className='viewuser__subtitle'>Información de perfil</p>
                         <div className="viewuser__data">
-                            <div>
+                            <div className='viewuser__text'>
+                                <p>Número de empleado: <span>{data?.id}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
                                 <p>Fecha de nacimiento: <span>{data?.birthdate.toString()}</span></p>
                             </div>
-                            <div>
+                            <div className='viewuser__text'>
                                 <p>Número de telefono: <span>{data?.phone}</span></p>
                             </div>
                         </div>
                     </article>
+                    <article className='viewuser__box'>
+                        <p className='viewuser__subtitle'>Información medica</p>
+                        <div className="viewuser__data">
+                            <div className='viewuser__text'>
+                                <p>Alergias: <span>{data?.allergies}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Tipo de sangre: <span>{data?.bloodType}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Número de seguro social: <span>{data?.nss}</span></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article className='viewuser__box'>
+                        <p className='viewuser__subtitle'>Información general</p>
+                        <div className="viewuser__data">
+                            <div className='viewuser__text'>
+                                <p>Dirección: <span>{data?.address}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Estado de la republica: <span>{data?.state.name}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Posición: <span>{data?.position}</span></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article className='viewuser__box'>
+                        <p className='viewuser__subtitle'>Otros datos</p>
+                        <div className="viewuser__data">
+                            <div className='viewuser__text'>
+                                <p>CURP: <span>{data?.curp}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>CUIP: <span>{data?.cuip}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Rol: <span>{data?.rol}</span></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article className='viewuser__box'>
+                        <p className='viewuser__subtitle'>Datos de registro</p>
+                        <div className="viewuser__data">
+                            <div className='viewuser__text'>
+                                <p>Ingreso: <span>{data?.createdAt.toString().substring(0,10)}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Ultima actualización: <span>{data?.upDateAt?.toString().substring(0,10)}</span></p>
+                            </div>
+                            <div className='viewuser__text'>
+                                <p>Jefe directo: <span>{data?.userChief?.name}</span></p>
+                            </div>
+                        </div>
+                    </article>
+
+                    
                 </section>
 
                 

@@ -27,4 +27,5 @@ body {
     grid-template-rows: 80px 1fr;
     overflow: hidden;
     transition: grid-template-columns 1s;
+    position: relative;
 }

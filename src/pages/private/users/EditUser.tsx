@@ -92,14 +92,14 @@ export default function FormUser({ data, id }: Props) {
         if (dataForm.cuip !== data.cuip) dataSend.cuip = dataForm.cuip;
         if (dataForm.idChief !== data.userChief?.id) dataSend.idChief = dataForm.idChief;
         if (dataForm.rol !== data.rol) dataSend.rol = dataForm.rol;
-        if (dataForm.idState !== data.state.id) dataSend.idState = dataForm.idState;
+        if (Number(dataForm.idState) !== data.state.id) dataSend.idState = dataForm.idState;
 
 
         console.log(dataSend);
 
         // const { imag, ...rest } = data;
         const formData = new FormData();
-        formData.append("data", JSON.stringify({ ...dataSend, idState: Number(dataSend.idState) }))
+        formData.append("data", JSON.stringify({ ...dataSend }))
 
         console.log(dataForm.imag);
 
@@ -207,7 +207,7 @@ export default function FormUser({ data, id }: Props) {
                             <select {...register("rol")} id="rol-empleado">
                                 {
                                     roles?.map(rol => {
-                                        return <option selected={data.rol == rol} value={rol}>{rol}</option>
+                                        return <option selected={data.rol.toLowerCase() == rol.toLowerCase()} value={rol}>{rol}</option>
                                     })
                                 }
                             </select>
