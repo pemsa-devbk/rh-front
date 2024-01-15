@@ -1,16 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
 
-:root{
+:root {
     --color-primary-logo: #000066;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.body{
+// ! body es un elemeto html no una clase
+body {
     background-color: var(--color-secondary-bcolor);
     font-family: 'Poppins', sans-serif;
+}
+
+.main {
+    display: grid;
+    margin-left: 250px;
+    height: 100vh;
+    width: calc(100% - 250px);
+    // border: 1px solid red;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px 1fr;
+    overflow: hidden;
+    transition: grid-template-columns 1s;
 }

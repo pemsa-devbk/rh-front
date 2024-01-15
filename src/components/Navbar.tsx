@@ -5,12 +5,15 @@ import { useAuthStore } from '../store/auth/auth.store';
 
 export default function Navbar() {
     const logOut = useAuthStore(state => state.logOut);
+    
     return (
         <nav className="nav">
 
             <figure className="nav__picture">
                 <img className="nav__logo" src={logo} alt="logo" />
             </figure>
+
+           
 
             <ul className="nav__container">
                 <NavLink to="home" className="nav__icon">

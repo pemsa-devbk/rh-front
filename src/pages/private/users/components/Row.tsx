@@ -84,9 +84,9 @@ export const Row = ({ user }: Props) => {
             <td className="table__body-item">{user.rol}</td>
             <td className="table__body-item">{user.name}</td>
             <td className="table__body-item">{user.curp}</td>
-            <td className="table__body-item">{user.createdAt.toLocaleString()}</td>
+            <td className="table__body-item">{user.createdAt.toString().substring(0, 10)}</td>
 
-            <td className="table__body-item">
+            <td className="table__body-item table__body-item options">
                 <NavLink to={`/dashboard/mostarInfo/${user.id}`} className="table__body-item-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M12 9a3.02 3.02 0 0 0-3 3c0 1.642 1.358 3 3 3 1.641 0 3-1.358 3-3 0-1.641-1.359-3-3-3z"></path><path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 12c-5.351 0-7.424-3.846-7.926-5C4.578 10.842 6.652 7 12 7c5.351 0 7.424 3.846 7.926 5-.504 1.158-2.578 5-7.926 5z"></path></svg>
                 </NavLink>
@@ -105,9 +105,9 @@ export const Row = ({ user }: Props) => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg>
                 </NavLink>
 
-                <button className="download" onClick={() => download(user)}>
+                <span className="table__body-item-button" onClick={() => download(user)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M19 9h-4V3H9v6H5l7 8zM4 19h16v2H4z"></path></svg>
-                </button>
+                </span>
             </td>
         </tr>
     )

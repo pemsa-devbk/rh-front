@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom"
-import Footer from "../../components/Footer"
+// import Footer from "../../components/Footer"
 import Header from "../../components/Header"
 import Navbar from "../../components/Navbar"
 import { useAuthStore } from "../../store/auth/auth.store"
@@ -22,12 +22,15 @@ export const LayoutDashboard = () => {
   return (
     <div className="home">
 
-        <Header/>
         <Navbar/>
-        
-          <Outlet/>
 
-        <Footer/>
+        <main className="main">
+          <Header/>
+          
+            <Outlet/>
+
+          {/* <Footer/> */}
+        </main>
     </div>
   )
 }

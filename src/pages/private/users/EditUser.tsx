@@ -113,22 +113,22 @@ export default function FormUser({ data, id }: Props) {
 
     return (
         <>
-            <section className="container__info">
+            {/* <section className="container__info">
                 <h2 className="container__info-title">Edición del usuario: {data?.name}</h2>
                 <Link to="/dashboard/usuarios">
                     <svg className="container__info-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path className='container__info-icon' d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"></path></svg>
                 </Link>
-            </section>
+            </section> */}
 
 
-            <section className="registerEditUser">
+            <section className="register">
                 <div className='register__photo'>
-                    <img className="register__photo-user" src={data.urlPhoto} alt="photo-user" />
+                    <img className="register__img" src={data.urlPhoto} alt="photo-user" />
                 </div>
 
                 <form className='register__texts' onSubmit={handleSubmit(onSubmit)}>
 
-                    <div className='register__texts register__texts--addUser'>
+                    {/* <div className='register__texts register__texts--addUser'> */}
                         <div className='register__texts-inputBox'>
                             <input {...register("id")} type="text" />
                             <span >ID de empleado</span>
@@ -230,7 +230,7 @@ export default function FormUser({ data, id }: Props) {
                             <span>Seleccionar un archivo</span>
                         </div>
 
-                    </div>
+                    {/* </div> */}
 
                     <div className='register__texts register__texts'>
                         <input className='register__texts-submitForm' type="submit" value='Guardar cambios' />

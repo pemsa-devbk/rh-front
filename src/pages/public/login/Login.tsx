@@ -35,7 +35,7 @@ export const Login = () => {
       }
 
       if(status=="Logueado"){
-        return <Navigate to='/dashboard'/>
+        return <Navigate to='/dashboard/home'/>
       }
 
 

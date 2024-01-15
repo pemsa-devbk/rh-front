@@ -1,8 +1,23 @@
 .icons {
     width: 100%;
-    height: 13%;
+    height: 80px;
     display: flex;
     justify-content: space-between;
+    // border: 1px solid red;
+
+    &__addUser {
+        margin: 20px;
+        align-self: center;
+        background-color: #000066ef;
+        fill: #F3F7FC;
+        width: 52%;
+        height: 50%;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+
+    // ! No ocupado
 
     &--viewUser {
         width: 20%;
@@ -10,7 +25,6 @@
         align-items: end;
         margin: 0;
     }
-
 
     &__picture {
         width: 42px;
@@ -41,26 +55,18 @@
         }
     }
 
-    &__addUser {
-        margin: 20px;
-        align-self: center;
-        background-color: #000066ef;
-        fill: #F3F7FC;
-        width: 52%;
-        height: 50%;
-        padding: 5px;
-        border-radius: 10px;
-    }
+
 }
 
 
-.search{
-    
+.search {
+
     text-align: right;
-    width: 80%;
-    margin:  0 auto;
+    width: 90%;
+    margin: 0 auto;
     padding: 0.5rem 0;
-    input{
+
+    input {
         width: 30%;
         padding: 0.3rem 0.5rem;
         border: 1px solid #0000666e;
@@ -68,34 +74,26 @@
     }
 }
 
+
+
 .table {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     border-spacing: 0;
     //background-color: rgba(214, 215, 218, 0.357);
-    background-color: #3742741d;
 
-    &__header-container {
-        width: 100%;
-        color: #F3F7FC;
-    }
+
 
     &__header {
-        background-color: #0000669a;
+        color: #F3F7FC;
+        background-color: #000066;
         border-radius: 0 0 10px 10px;
-
-        &-container {
-            background-color: #00006694;
-            border-radius: 0 0 10px 10px;
-        }
 
         &-item {
             padding: 15px 20px;
             text-align: left;
             font-size: 12px;
             font-weight: 600;
-            font-family: 'Poppins';
-            
 
             &--first {
                 border-bottom-left-radius: 10px;
@@ -106,32 +104,55 @@
                 text-align: center;
             }
         }
+
+        // ! No se ocupa
+        &-container {
+            background-color: #00006694;
+            border-radius: 0 0 10px 10px;
+        }
+
     }
 
     &__body {
         color: #063166;
-        svg{
+
+        svg {
             fill: #063166;
         }
 
         &-item {
-            padding: 10px 20px;
-            font-size: 11px;
+            padding: 15px 20px;
+            font-size: 12px;
             font-weight: normal;
-            font-family: 'Poppins';
             text-align: left;
-            border-bottom: 1px solid #0000666e;
+            // border-bottom: 1px solid #0000666e;
 
             &-button {
                 width: 22px;
+                cursor: pointer;
 
                 &:not(:last-child) {
                     margin-right: 20px;
                 }
             }
         }
+        &-container{
+            &:nth-child(2n){
+                background-color: #0631660d;
+            }
+
+        }
+
+        .options{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
+
+
+// ! ¿Para que?
 
 #toggle {
     position: relative;
@@ -141,6 +162,7 @@
     padding: 3px;
 
 }
+
 #toogle {
     position: relative;
     display: inline-block;
@@ -199,11 +221,4 @@ input:checked+.slider::before {
 .slider.slider.round::before {
     text-align: center;
     border-radius: 50%;
-}
-
-
-
-.download{
-    border:none;
-    background-color: transparent;
 }

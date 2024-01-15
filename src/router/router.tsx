@@ -21,24 +21,26 @@ export const router = createBrowserRouter([
                 path: "login",
                 element: <Login />
             },
-            {
-                path: "contador",
-                element: <Contador />
-            },
+            // ! { Se deben de eliminar las rutas que no se utlizan
+            //     path: "contador",
+            //     element: <Contador />
+            // },
             {
                 path: "dashboard",
                 element: <LayoutDashboard />,
                 children: [
                     {
                         path: "home",
-                        element: <div className="container__body">
-                             <Home/>
+                        element: 
+                            <div className="container__body container__body--center">
+                            <Home/>
                         </div>
                     },
                     {
                         path: "usuarios",
-                        element: <div className="container__body container__body--users">
-                           <Users/>
+                        element: 
+                        <div className="container__body container__body--users">
+                            <Users/>
                         </div>,
                         // children:[ la primera es dejarlo sin clase y ocupar un fragment en nuestro html
                         //     { //segunda solución
@@ -52,7 +54,7 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: "registro",
-                        element: <div className="container__body container__body--register">
+                        element: <div className="container__body container__body--center">
                             <Register/>
                         </div>
                     },
@@ -70,7 +72,7 @@ export const router = createBrowserRouter([
                     },
                     {
                         path:"editarUsuario/:id",
-                        element: <div className="container__body container__body--editUser" > 
+                        element: <div className="container__body container__body--center" > 
                             <EditUser/>
                         </div>
                     }

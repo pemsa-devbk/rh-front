@@ -1,4 +1,7 @@
+// ! Verificar eliminación
 .container__info {
+    
+    padding: 1rem 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -34,6 +37,11 @@
         filter: drop-shadow(1px 1px 1px #4e4e4e3f);
     }
 }
+
+
+
+
+
 
 
 .register__viewUser {
@@ -212,4 +220,37 @@
     text-transform: capitalize;
     color: #374274;
     background-color: #ffffff;
+}
+
+
+.viewuser{
+    // background: #000;
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    
+
+    &__media{
+        flex-basis: 300px;
+        background: #fff;
+        border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    &__picture{
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 100%;
+    }
+    &__img{
+        margin: 0 auto;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    &__information{
+        flex: 1;
+    }
 }
