@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { BloodType } from '../../../api/interfaces/users';
 import { useCreateUser, useRoles, useStates, useUsers } from '../../../hooks/user';
@@ -20,7 +19,7 @@ type Inputs = {
     birthdate: Date;
     curp: string;
     address: string;
-    bloodType: BloodType[];
+    bloodType: BloodType;
     allergies: string;
     nss: string;
     cuip: string;
@@ -29,7 +28,8 @@ type Inputs = {
     idChief: string;
     idState: number;
     contacts: Contact[];
-    imag: FileList;
+    img: FileList;
+    firma: FileList;
 }
 
 export default function Register() {
@@ -40,61 +40,48 @@ export default function Register() {
     const {
         register,
         handleSubmit,
-        getValues
-    } = useForm<Inputs>()
+        reset
+    } = useForm<Inputs>({
+        defaultValues:{
+            bloodType: undefined
+        },
+
+    })
 
 
     const { mutate } = useCreateUser();
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        const { imag, ...rest } = data;
+
+        const datosFiltrados: Partial<Inputs> = Object.entries(data).reduce(
+            (acc: Partial<Inputs>, [key, value]) => {
+                if (value !== '') {
+                    acc = { ...acc, [key as keyof Inputs]: value};
+                }
+                return acc;
+            },
+            {}
+        );
+        const { img, firma, ...rest } = datosFiltrados;
         const formData = new FormData();
         formData.append("data", JSON.stringify({ ...rest, idState: Number(rest.idState), contacts: [] }))
-        formData.append("imag", imag[0])
+        formData.append("img", img![0])
+        formData.append("firma", firma![0])
 
-        mutate(formData)
+        mutate(formData, {
+            onSuccess(data) {
+                Swal.fire({
+                    title: "Usuario creado",
+                    icon: 'success',
+                    text: `El usuario ${data.user.name} fue creado.`
+                })
+                reset();
+            },
+        })
     }
 
     const { data: states } = useStates();
     const { data: roles } = useRoles();
-
-    // const handClick = (user: User) => {
-    //     Swal.fire({
-    //         title: "Verifique todos los campos se han llenado correctamente para crear el usuario correctamente",
-    //         icon: "warning",
-    //         showCancelButton: true,
-    //         confirmButtonColor: "#3085d6",
-    //         cancelButtonColor: "#d33",
-    //         confirmButtonText: "Si, enviar datos"
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             {
-    //                 mutate( , {
-    //                     onSuccess: () => {
-    //                         Swal.fire({
-    //                             title: "Se ha creado un nuevo usuario",
-    //                             text: `El usuario: ${user.name} ha creó con éxito`,
-    //                             icon: "success"
-    //                         });
-    //                     }
-    //                 })
-
-    //             }
-
-    //         }
-    //     });
-
-    // }
-
-    const handClick = () => {
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "El usuario se ha creado con éxito",
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
 
     const handleImagenSeleccionada = (event: React.ChangeEvent<HTMLInputElement>) => {
         const archivo = event.target.files?.[0];
@@ -113,12 +100,6 @@ export default function Register() {
 
     return (
         <>
-            {/* <section className="container__info">
-                <h2 className="container__info-title">Creación de usuario:</h2>
-                <Link to="/dashboard/usuarios">
-                    <svg className="container__info-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path className='container__info-icon' d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"></path></svg>
-                </Link>
-            </section> */}
 
             <section className="register">
 
@@ -147,12 +128,12 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <input {...register("birthdate")} type="date" />
+                        <input {...register("birthdate")} type="date" required />
                         <label >Fecha de nacimiento:</label>
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <input {...register("phone")} type="number" required />
+                        <input {...register("phone")} type="number" />
                         <label >Teléfono</label>
                     </div>
 
@@ -162,12 +143,13 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <input {...register("address")} type="text" required />
+                        <input {...register("address")} type="text" />
                         <label >Dirección </label>
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <select {...register("bloodType")} id="tipoSangre">
+                        <select {...register("bloodType")} id="bloodType" defaultValue={undefined}>
+                            <option hidden value="">Seleccione un tipo</option>
                             <option value="A+">A+</option>
                             <option value="A-">A-</option>
                             <option value="B+">B+</option>
@@ -181,7 +163,7 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <input {...register("allergies")} type="text" required />
+                        <input {...register("allergies")} type="text" />
                         <label >Alergias </label>
                     </div>
                     <div className='register__texts-inputBox'>
@@ -195,10 +177,11 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <select {...register("idChief")} id="jefe-directo">
+                        <select {...register("idChief")} id="idChief" defaultValue={undefined} required>
+                            <option hidden value="">Seleccione un usuario</option>
                             {
                                 users?.map(user => {
-                                    return <option value={user.id}>{user.name}</option>
+                                    return <option key={user.id} value={user.id}>{user.name}</option>
                                 })
                             }
                         </select>
@@ -206,21 +189,25 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <select {...register("rol")} id="rol-empleado">
+
+                        <select {...register("rol")} id="rol-empleado" required>
+                            <option hidden value="">Seleccione un rol</option>
                             {
-                                roles?.map(rol => {
-                                    return <option value={rol}>{rol}</option>
+                                roles?.map( rol => {
+                                    return <option key={rol[0]} value={rol[0]}>{rol[1]}</option>
                                 })
+                               
                             }
                         </select>
                         <label>Rol del usuario</label>
                     </div>
 
                     <div className='register__texts-inputBox'>
-                        <select {...register("idState")} id="state">
+                        <select {...register("idState")} id="state" required>
+                            <option hidden value="">Seleccione un estado</option>
                             {
                                 states?.map(state => {
-                                    return <option value={state.id}> {state.name}</option>
+                                    return <option key={state.id} value={state.id}> {state.name}</option>
                                 })
                             }
                         </select>
@@ -228,14 +215,21 @@ export default function Register() {
                     </div>
 
                     <div className='register__texts-inputBox register__texts-inputBox--img'>
-                        <input {...register("imag")} onChange={handleImagenSeleccionada} type="file"  id='submit-photo' />
-                        <label htmlFor='submit-photo'>Seleccionar un archivo</label>
+                        {/* TODO required */}
+                        <input {...register("img")} onChange={handleImagenSeleccionada} type="file"  id='submit-photo' required />
+                        <label htmlFor='submit-photo'>Subir foto</label>
+                    </div>
+
+                    <div className='register__texts-inputBox register__texts-inputBox--img'>
+                        {/* TODO required */}
+                        <input {...register("firma")} type="file" id='submit-firma' required />
+                        <label htmlFor='submit-firma'>Subir firma</label>
                     </div>
                     {/* </div> */}
 
 
                     <div className='register__save'>
-                        <input onClick={() => handClick()} className='register__texts-submitForm'
+                        <input className='register__texts-submitForm'
                             type="submit" value='Guardar'
                             
                         />
@@ -245,11 +239,6 @@ export default function Register() {
 
 
             </section>
-
-            {/* <div className="register__button" >
-                <button className="register__button-mod register__button-mod--hover" onClick={() => navigate(-1)}>Cancel</button>
-                <Link to="/dashboard/contacto" className="register__button-mod register__button-mod--styleColor">Next</Link>
-            </div> */}
         </>
     )
 

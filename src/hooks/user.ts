@@ -1,7 +1,10 @@
 import { useQuery, useMutation } from "@tanstack/react-query"
-import { actualizaContact, actualizaUser, createContact, createUser, deleteContact, deleteSoftUser, getAllBloodTypes, getContacts, getRoles, getStates, getUser, getUsers, reintegroUser } from "../api/user"
+import { actualizaContact, createContact, deleteContact, getAllBloodTypes, getContacts, getRoles, getStates } from "../api/user"
 
 
+import { getUsers, getUser, createUser, disableUser, enableUser, actualizaUser } from '../api/usern';
+
+// users
 export const useUsers = () => {
     return useQuery({
         queryKey: ['users'],
@@ -17,12 +20,37 @@ export const useUser = (id:string) => {
     })
 }
 
-
 export const useCreateUser = () => {
     return useMutation({
         mutationFn: createUser
     })
 }
+
+export const useUpDateUser = () => {
+    return useMutation({
+        mutationFn: actualizaUser
+    })
+}
+
+
+export const useDisabledUser = () => {
+    return useMutation({
+        mutationFn: disableUser
+    })
+}
+
+export const useEnableUser = () => {
+    return useMutation({
+        mutationFn: enableUser
+    })
+}
+
+
+
+
+
+
+
 
 export const useCreateContact = () => {
     return useMutation({
@@ -47,24 +75,9 @@ export const useDeleteContact = ( ) => {
     })
  }
 
-export const useDeleteUser = () => {
-    return useMutation({
-        mutationFn: deleteSoftUser
-    })
-}
-
-export const useReintegroUser = () => {
-    return useMutation({
-        mutationFn: reintegroUser
-    })
-}
 
 
-export const useUpDateUser = () => {
-    return useMutation({
-        mutationFn: actualizaUser
-    })
-}
+
 
 
 export const useStates = () => {

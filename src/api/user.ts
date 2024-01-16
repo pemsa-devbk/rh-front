@@ -9,7 +9,7 @@ interface State {
 
 
 interface UserRoles{
-    roles: Array<string>;
+    roles: Array<Array<string>>;
 }
 
 
@@ -43,7 +43,7 @@ export const getUsers = async () => {
 
 export const getUser = async (id:string) => {
     const {data} = await instance.get<{user:User}>(`/users/${id}`);
-    await sleep();
+    
     return data.user;
 }
 
@@ -98,13 +98,5 @@ export const actualizaUser = async (datas:{id:string; data:FormData}) => {
     return data
 }
 
-const sleep = ()=>{
-    //añadir un rej como parámero adicional en Promise
-    return new Promise((res) => {
-        setTimeout(() => {
-            res(true)
-        }, 2000);
-    })
-}
 
 

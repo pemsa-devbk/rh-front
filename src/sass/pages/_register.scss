@@ -91,22 +91,27 @@
 
         &--img {
             input {
-                position: absolute;
-                opacity: 0;
+                position: absolute !important;
+                opacity: 0 !important;
             }
 
             input:valid~label,
             input:focus~label {
                 transform: translate(0, 0) !important;
-                padding: .6rem;
-                position: relative;
+                padding: .6rem !important;
+                position: relative !important;
             }
 
             label {
-                position: relative;
-                pointer-events: all;
-                width: 100%;
-                transform: translate(0);
+                position: relative !important;
+                pointer-events: all !important;
+                width: 100% !important;
+                padding: .6rem 20px !important;
+                transform: translate(0) !important;
+                background: #374274 !important;
+                border-radius: 5px;
+                color: #F3F7FC !important;
+                font-size: 0.7em !important;
             }
 
         }
@@ -130,6 +135,20 @@
         color: #5e5e5e;
         transition: 0.3s;
     }
+
+    &__texts-inputBox input[type="date"]~label,
+    .register__texts-inputBox input:focus~label {
+        color: #F3F7FC;
+        background-color: #374274;
+        //background-color: #8892eb;
+        border-left: 1px solid #374274;
+        border-right: 1px solid #374274;
+        border-radius: 5px;
+        transform: translateX(15px) translateY(-22px);
+        font-size: 0.7em;
+        letter-spacing: 0.1em;
+    }
+    
 
     &__texts-inputBox input:valid~label,
     .register__texts-inputBox input:focus~label {
@@ -160,7 +179,7 @@
         color: #3f3f3f;
     }
 
-    &__texts-inputBox select:valid~label,
+    &__texts-inputBox select~label,
     .register__texts-inputBox select:focus~label {
         color: #F3F7FC;
         background-color: #374274;
@@ -173,7 +192,7 @@
         letter-spacing: 0.1em;
     }
 
-    &__texts-inputBox select:valid,
+    &__texts-inputBox select,
     .register__texts-inputBox select:focus {
         border-color: #374274;
     }

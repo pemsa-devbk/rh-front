@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useUser } from '../../../hooks/user';
 
 export default function ViewUser() {
@@ -62,7 +62,7 @@ export default function ViewUser() {
                                 <p>Dirección: <span>{data?.address}</span></p>
                             </div>
                             <div className='viewuser__text'>
-                                <p>Estado de la republica: <span>{data?.state.name}</span></p>
+                                <p>Estado de la republica: <span>{data?.state?.name}</span></p>
                             </div>
                             <div className='viewuser__text'>
                                 <p>Posición: <span>{data?.position}</span></p>

@@ -111,7 +111,7 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
         }
         try {
             const { data } = await instance.get<{ token: string, user: User }>('auth/check');
-
+            
             return set({
                 status: 'Logueado',
                 user: data.user, token: data.token

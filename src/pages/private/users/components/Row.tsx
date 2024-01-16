@@ -1,23 +1,24 @@
 import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
-import { User } from "../../../../api/interfaces/users";
 import { instance } from "../../../../api/rh";
-import { useDeleteUser, useReintegroUser, useUsers } from "../../../../hooks/user";
+
+import { BasicUser } from '../../../../api/interfaces/response/user';
+import { useDisabledUser, useEnableUser, useUsers } from '../../../../hooks/user';
 
 
 interface Props {
-    user: User;
+    user: BasicUser;
 }
 
 export const Row = ({ user }: Props) => {
 
     const { refetch } = useUsers();
-    const { mutate } = useDeleteUser();
+    const { mutate: disableUser } = useDisabledUser();
 
-    const { mutate: reintegro } = useReintegroUser();
+    const { mutate: enableUser } = useEnableUser();
 
 
-    const handClick = (user: User) => {
+    const handClick = (user: BasicUser) => {
         Swal.fire({
             title: user.status ? "¿Desea dar de baja al usuario?" : "¿Desea reintegrar al usuario?",
             text: `${user.name}`,
@@ -29,7 +30,7 @@ export const Row = ({ user }: Props) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (user.status) {
-                    mutate(user.id, {
+                    disableUser(user.id, {
                         onSuccess: () => {
                             Swal.fire({
                                 title: "Dado de baja",
@@ -42,7 +43,7 @@ export const Row = ({ user }: Props) => {
                     })
 
                 } else {
-                    reintegro(user.id, {
+                    enableUser(user.id, {
                         onSuccess() {
                             Swal.fire({
                                 title: "Reintegrado!",
@@ -65,7 +66,7 @@ export const Row = ({ user }: Props) => {
 
     }
 
-    const download = (user: User) => {
+    const download = (user: BasicUser) => {
         instance.get(`users/credencial/${user.id}`, {
             responseType: "blob"
         })

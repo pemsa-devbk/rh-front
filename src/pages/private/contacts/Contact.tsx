@@ -3,10 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Contact } from "../../../api/interfaces/users";
 import { useCreateContact, useDeleteContact, useUser } from "../../../hooks/user";
+import { ValidContact } from "../../../api/interfaces/request/contact";
 
 type Inputs = {
     contact: string
-    type: number
+    type: ValidContact
     notes: string
 }
 
