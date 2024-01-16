@@ -37,7 +37,6 @@ export const allStates = async () =>{
 
 export const getUsers = async () => {
     const {data} = await instance.get<ResponseUsers>('users');
-    
     return data.users;
 }
 
@@ -46,6 +45,12 @@ export const getUser = async (id:string) => {
     
     return data.user;
 }
+
+// export const getMovs = async (id:string) => {
+//     const {data} = await instance.get<user:User>(`/`)
+
+// }
+
 
 export const createContact = async (dataS:{id:string; data:any}) => {
     const {data} = await instance.post<ResponseCreateContact>(`contact/${dataS.id}`, dataS.data);
