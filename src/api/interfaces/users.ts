@@ -45,9 +45,36 @@ export interface Contact {
     notes: string;
 }
 
-interface MISMOV {
+export interface MISMOV {
     id: number;
     createdAt: Date;
+    createdBy: CreatedBy;
+    movType:   MOVType;    
+}
+
+export interface CreatedBy extends User {
+    id:   string;
+    name: string;
+}
+
+export enum ID {
+    Empl1 = "Empl1",
+}
+
+export enum Name {
+    AdministradorRH = "Administrador RH",
+}
+
+export interface MOVType {
+    id:      number;
+    nameMov: NameMOV;
+}
+
+export enum NameMOV {
+    Alta = "Alta",
+    Baja = "Baja",
+    Reintegro = "Reintegro",
+    Vacaciones = "Vacaciones",
 }
 
 export enum Allergies {

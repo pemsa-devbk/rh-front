@@ -82,12 +82,17 @@
     border-spacing: 0;
     //background-color: rgba(214, 215, 218, 0.357);
 
-
-
     &__header {
         color: #F3F7FC;
         background-color: #000066;
         border-radius: 0 0 10px 10px;
+
+        &--title{
+            padding: 10px 0 20px;
+            font-size: 16px;
+            color: rgba(53, 52, 52, 0.738);
+            background-color: #fff;
+        }
 
         &-item {
             padding: 15px 20px;
