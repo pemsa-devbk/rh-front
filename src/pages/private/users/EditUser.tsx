@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useRoles, useStates, useUpDateUser, useUser, useUsers } from '../../../hooks/user';
+import { useUpDateUser, useUser, useUsers } from '../../../hooks/user';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { BloodType, User } from '../../../api/interfaces/response/user';
 import { CreateContact } from '../../../api/interfaces/request/contact';
 import Swal from 'sweetalert2';
+import { useRoles, useStates } from '../../../hooks/general';
 
 type Inputs = {
     id: string;
@@ -24,6 +25,7 @@ type Inputs = {
     contacts: CreateContact[];
     img: FileList;
     firma: FileList;
+    gender: string;
 }
 
 export const EditUser = () => {
@@ -73,7 +75,7 @@ export default function FormUser({ data, id }: Props) {
             cuip: data.cuip,
             idChief: data.userChief?.id,
             rol: data.rol,
-            idState: data.state.id
+            idState: data.region.id
         }
     })
 
@@ -98,7 +100,7 @@ export default function FormUser({ data, id }: Props) {
             return acc;
         }, {} as Partial<Inputs>);
         if (idChief !== data.userChief?.id) dataSend.idChief = idChief;
-        if (Number(idState) !== data.state.id) dataSend.idState = Number(idState);
+        if (Number(idState) !== data.region.id) dataSend.idState = Number(idState);
 
         const formData = new FormData();
         formData.append("data", JSON.stringify({ ...dataSend }))
@@ -146,6 +148,15 @@ export default function FormUser({ data, id }: Props) {
                     </div>
 
                     <div className='register__texts-inputBox'>
+                        <select {...register("gender")} id="gender" defaultValue={undefined}>
+                            <option hidden value="">Seleccione uno</option>
+                            <option value="M" selected={data.gender==='M'}>Masculino</option>
+                            <option value="F" selected={data.gender === 'F'}>Femenino</option>
+                        </select>
+                        <label>Genero</label>
+                    </div>
+
+                    <div className='register__texts-inputBox'>
                         <input {...register("birthdate")} type="date" />
                         <label >Fecha de nacimiento:</label>
                     </div>
@@ -168,12 +179,11 @@ export default function FormUser({ data, id }: Props) {
                     <div className='register__texts-inputBox'>
                         <select {...register("bloodType")} id='bloodType' value={data.bloodType}>
                             <option hidden value="">Seleccione un tipo</option>
-                            {/* {
+                            {
                                     Object.values(BloodType).map((key) => (
                                         <option key={key} selected={data.bloodType == key} value={key}>{key}</option>
                                     ))
-                                } */}
-
+                                }
                         </select>
                         <label >Tipo de sangre</label>
 
@@ -224,21 +234,21 @@ export default function FormUser({ data, id }: Props) {
                         <select {...register("idState")} id="state">
                             {
                                 states?.map(state => {
-                                    return <option key={`state-${state.id}`} selected={data.state.id == state.id} value={state.id}> {state.name}</option>
+                                    return <option key={`state-${state.id}`} selected={data.region.id == state.id} value={state.id}> {state.name}</option>
                                 })
                             }
                         </select>
-                        <label>Oficina ubicada en:</label>
+                        <label>Region:</label>
                     </div>
 
                     <div className='register__texts-inputBox register__texts-inputBox--img'>
                         <input {...register("img")} type="file" form='form-addUser' id='submit-photo' />
-                        <label>Seleccionar un archivo</label>
+                        <label htmlFor='submit-photo'>Seleccionar un archivo</label>
                     </div>
 
                     <div className='register__texts-inputBox register__texts-inputBox--img'>
-                        <input {...register("firma")} type="file" form='form-addUser' id='submit-firma' required />
-                        <label>Seleccionar un archivo</label>
+                        <input {...register("firma")} type="file" form='form-addUser' id='submit-firma' />
+                        <label htmlFor='submit-firma'>Seleccionar un archivo</label>
                     </div>
 
                     {/* </div> */}

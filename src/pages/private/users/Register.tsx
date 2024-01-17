@@ -1,9 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { BloodType } from '../../../api/interfaces/users';
-import { useCreateUser, useRoles, useStates, useUsers } from '../../../hooks/user';
+import { useCreateUser, useUsers } from '../../../hooks/user';
 import photoUser from '../../../img/icon/circle-user.png';
 import { useState } from 'react';
+import { useRoles, useStates } from '../../../hooks/general';
 
 interface Contact {
     type: number;
@@ -30,6 +31,7 @@ type Inputs = {
     contacts: Contact[];
     img: FileList;
     firma: FileList;
+    gender: string;
 }
 
 export default function Register() {
@@ -122,6 +124,16 @@ export default function Register() {
                         <label >Puesto</label>
                     </div>
 
+                    {/*  */}
+                    <div className='register__texts-inputBox'>
+                        <select {...register("gender")} id="gender" defaultValue={undefined}>
+                            <option hidden value="">Seleccione uno</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                        <label>Genero</label>
+                    </div>
+
                     <div className='register__texts-inputBox'>
                         <input {...register("password")} type="text" required />
                         <label >Contraseña </label>
@@ -211,7 +223,7 @@ export default function Register() {
                                 })
                             }
                         </select>
-                        <label>Oficina ubicada en:</label>
+                        <label>Región:</label>
                     </div>
 
                     <div className='register__texts-inputBox register__texts-inputBox--img'>

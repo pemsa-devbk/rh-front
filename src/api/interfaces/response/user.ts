@@ -15,7 +15,7 @@ export interface BasicUser {
     rol: Rol;
     status: boolean;
     createdAt: Date;
-    state: State;
+    region: State;
 }
 
 export interface User extends BasicUser{
@@ -33,6 +33,7 @@ export interface User extends BasicUser{
     misMovs: MISMOV[];
     userChief: UserChief;
     contacts: Contact[];
+    gender: string;
 }
 export enum BloodType {
     A = "A+",

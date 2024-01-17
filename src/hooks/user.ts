@@ -1,8 +1,8 @@
 import { useQuery, useMutation } from "@tanstack/react-query"
-import { actualizaContact, createContact, deleteContact, getAllBloodTypes, getContacts, getRoles, getStates } from "../api/user"
+// import {  getAllBloodTypes, } from "../api/userpadsa"
 
 
-import { getUsers, getUser, createUser, disableUser, enableUser, actualizaUser } from '../api/usern';
+import { getUsers, getUser, createUser, disableUser, enableUser, actualizaUser } from '../api/user';
 
 // users
 export const useUsers = () => {
@@ -52,52 +52,12 @@ export const useEnableUser = () => {
 
 
 
-export const useCreateContact = () => {
-    return useMutation({
-        mutationFn: createContact
-    })
-}
-
-export const useDeleteContact = ( ) => {
-    return useMutation({
-        mutationFn: deleteContact
-    })
-}
- export const useContact = () => {
-    return useMutation({
-        mutationFn: getContacts
-    })
- }
-
- export const useUpDateContact = () => {
-    return useMutation ({
-        mutationFn: actualizaContact
-    })
- }
 
 
 
-
-
-
-export const useStates = () => {
-    return useQuery ({
-        queryKey: ['states'],
-        queryFn: getStates,
-    })
-}
-
-
-export const useRoles = () => {
-    return useQuery ({
-        queryKey: ['roles'],
-        queryFn: getRoles
-    })
-}
-
-export const useBloodTypes = () => {
-    return useQuery ({
-        queryKey: ['blood-types'],
-        queryFn: getAllBloodTypes
-    })
-}
+// export const useBloodTypes = () => {
+//     return useQuery ({
+//         queryKey: ['blood-types'],
+//         queryFn: getAllBloodTypes
+//     })
+// }

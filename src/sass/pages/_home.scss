@@ -42,17 +42,12 @@
         background-color: #ffffffe2;
     }
 
-    &--register {
-        justify-content: space-evenly;
-        //background-color: rgba(243, 246, 251, 0.608);
-        background-color: #ffffffe2;
-
-    }
 
     &--contact {
-        justify-content: space-evenly;
-        background-color: #ffffffe2;
-        //background-color: #f7f7f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // background: #000;
 
     }
 

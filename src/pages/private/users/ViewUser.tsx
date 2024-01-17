@@ -55,7 +55,7 @@ export default function ViewUser() {
                                 <p>Dirección: <span>{data?.address}</span></p>
                             </div>
                             <div className='viewuser__text'>
-                                <p>Estado de la republica: <span>{data?.state?.name}</span></p>
+                                <p>Región: <span>{data?.region?.name}</span></p>
                             </div>
                             <div className='viewuser__text'>
                                 <p>Posición: <span>{data?.position}</span></p>
@@ -82,10 +82,15 @@ export default function ViewUser() {
                         <p className='viewuser__subtitle'>Datos de registro</p>
                         <div className="viewuser__data">
                             <div className='viewuser__text'>
-                                <p>Ingreso: <span>{data?.createdAt.toString().substring(0, 10)}</span></p>
+                                <p>Ingreso: <span>
+                                    {new Date(data?.createdAt || '').toLocaleDateString('es-MX', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
+                                    </span>
+                                </p>
                             </div>
                             <div className='viewuser__text'>
-                                <p>Ultima actualización: <span>{data?.upDateAt?.toString().substring(0, 10)}</span></p>
+                                <p>Ultima actualización: <span>
+                                    {new Date(data?.upDateAt || '').toLocaleDateString('es-MX', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
+                                </span></p>
                             </div>
                             <div className='viewuser__text'>
                                 <p>Jefe directo: <span>{data?.userChief?.name}</span></p>
@@ -105,8 +110,8 @@ export default function ViewUser() {
                         </tr>
                         <tr>
                             <th className='table__header-item table__header-item--first'> Movimiento</th>
-                            <th className='table__header-item'> Fecha de ingreso </th>
-                            <th className='table__header-item'> Usuario encargado del registro</th>
+                            <th className='table__header-item'> Fecha</th>
+                            <th className='table__header-item'> Realizado por</th>
                             <th className='table__header-item table__header-item--end' > Tipo de movimiento </th>
                         </tr>
                     </thead>
@@ -125,22 +130,13 @@ export default function ViewUser() {
                             data?.misMovs?.map((mov) => (
                                 <tr key={mov.id} className='table__body-container'>
                                     <td className='table__body-item'>{mov.id}</td>
-                                    <td className='table__body-item'>{mov.createdAt.toString().substring(0, 10)}</td>
-                                    <td className='table__body-item'>{mov.createdBy.name} Id: {mov.createdBy.id}</td>
+                                    <td className='table__body-item'>{new Date(mov.createdAt).toLocaleDateString('es-MX', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</td>
+                                    <td className='table__body-item'>{mov.createdBy.name}</td>
                                     <td className='table__body-item'>{mov.movType.nameMov}</td>
                                 </tr>
                             ))
                         }
-                        {
-                            data?.misMovs?.map((mov) => (
-                                <tr key={mov.id} className='table__body-container'>
-                                    <td className='table__body-item'>{mov.id}</td>
-                                    <td className='table__body-item'>{mov.createdAt.toString().substring(0, 10)}</td>
-                                    <td className='table__body-item'>{mov.createdBy.name} Id: {mov.createdBy.id}</td>
-                                    <td className='table__body-item'>{mov.movType.nameMov}</td>
-                                </tr>
-                            ))
-                        }
+                       
                     </tbody>
                 </table>
             </div>

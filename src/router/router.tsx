@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Login } from "../pages/public/login/Login";
-import { Contador } from "../pages/example/Contador";
 import { LayoutDashboard } from "../pages/private/LayoutDashboard";
 import Home from "../pages/private/Home";
 import { Users } from "../pages/private/users/Users";

@@ -1,32 +1,43 @@
-.register__texts {
 
-    &--textsContact {
-        justify-content: flex-start;
-        width: 55%;
-        min-width: 300px;
-        height: 100%;
-        // border: 1px solid #00ff80ab;
-        padding: 5px 15px;
-        border-radius: 10px;
-        overflow-y: auto;
-    }
+.formcontact{
+    height: 380px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: .5rem 1rem;
+}
 
-    &--textsContact2 {
-        justify-content: flex-start;
-        width: 45%;
-        text-align: center;
-        padding: 15px;
-        min-width: 100px;
-        height: 100%;
-        // border: 1px solid #6f00ffab;
-        border-radius: 10px;
-        overflow-y: auto;
-        border-right: 1px solid #3742743e;
-        border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;
+.listcontact{
+    height: 380px;
+    flex-basis: 300px;
+    overflow-y: auto;
+    
+    .contact{
+        display: flex;
+        // border: 1px solid red;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        &:not(:last-child){
+            margin-bottom: 1rem;
+        }
+        &__info{
+            flex: 1;
+        }   
+        &__title{
+            background: #374274;
+            padding: .5rem 1rem;
+            width: 100%;
+            color: #fff;
+        }
+        &__actions{
+            
+        }
     }
 
 }
+
+
 
 .register__texts-username {
     &--regSectionContactos {

@@ -3,8 +3,8 @@ import { useAuthStore } from "../store/auth/auth.store";
 
 export const instance = axios.create(
     {
-        baseURL: "http://localhost:3000/",
-        // baseURL: "https://rehunames.pem-sa.com.mx",
+        // baseURL: "http://192.168.1.93:3000/",
+        baseURL: "https://rehunames.pem-sa.com.mx",
     }
 );
 

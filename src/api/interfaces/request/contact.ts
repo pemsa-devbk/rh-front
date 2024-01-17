@@ -3,7 +3,15 @@ export interface CreateContact{
 
     type: ValidContact;
 
-    ntes: string;
+    notes?: string;
+}
+
+export interface UpdateContact {
+    contact?: string;
+
+    type?: ValidContact;
+
+    notes?: string;
 }
 
 export enum ValidContact {

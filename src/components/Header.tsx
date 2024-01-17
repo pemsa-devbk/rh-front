@@ -22,6 +22,10 @@ export default function Header() {
                                 params.pathname.includes('mostar')
                                 ? 'Información de usuario'
                                 :
+                                params.pathname.includes('contacto')
+                                ?
+                                'Contactos'
+                                :
                     'Pagina de incio'
                 }
                 </h2>
