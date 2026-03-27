@@ -1,20 +1,33 @@
 import { instance } from "./rh";
 
-interface State {
-    id: number;
-    name: string;
-}
-interface UserRoles {
-    roles: Array<Array<string>>;
+interface Rol {
+    value: string;
+    description: string;
 }
 
+export interface SpecialUser {
+    key: string;
+    description: string;
+    user_id: string | null;
+    user: { user_id: string; name: string; } | null
+}
 
-export const getStates = async () => {
-    const { data } = await instance.get<{ states: Array<State> }>('config/states');
-    return data.states
+export interface FormConfig {
+    key: string;
+    user_id: string;
 }
 
 export const getRoles = async () => {
-    const { data } = await instance.get<UserRoles>('config/roles');
+    const { data } = await instance.get<{ roles: Array<Rol> }>('configuration/roles');
     return data.roles;
+}
+
+export const getConfig = async () => {
+    const { data } = await instance.get<{ config: Array<SpecialUser> }>(`configuration/special-users`);
+    return data.config;
+}
+
+export const updateConfig = async (params: FormConfig) => {
+    const { data } = await instance.patch(`configuration/update-user`, params);
+    return data;
 }

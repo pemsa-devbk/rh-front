@@ -1,19 +1,23 @@
+import { Contact, FormContact, MultipleContact } from "./interfaces/contact";
+import { ResponsePagination } from "./interfaces/response";
 import { instance } from "./rh";
-import { CreateContact, UpdateContact } from './interfaces/request/contact';
 
-
-export const createContact = async (dataS: { id: string; data: CreateContact }) => {
-    const { data } = await instance.post(`contact/${dataS.id}`, dataS.data);
+export const getContacts = async (userID: string, take: number, skip: number) => {
+    const { data } = await instance.get<ResponsePagination<Contact>>(`users/${userID}/contacts`, { params: { take: take, skip: skip } });
     return data;
 }
 
-export const deleteContact = async (id: string) => {
-    const { data } = await instance.delete(`contact/${id}`);
+export const createContacts = async ({data: dataSend, userID}: { userID: string, data: MultipleContact }) => {
+    const { data } = await instance.post<Array<Contact>>(`users/${userID}/contacts`, dataSend)
     return data;
 }
 
-export const actualizaContact = async (dataS: { id: number, data: UpdateContact }) => {
-    const {id} = dataS;
-    const { data } = await instance.patch(`contact/edit/${id}`, dataS.data);
-    return data
+export const updateContact = async ({data: dataSend, contactID, userID}: { userID: string, contactID: number, data: Partial<FormContact> }) => {
+    const { data } = await instance.patch<Contact>(`users/${userID}/contacts/${contactID}`, dataSend);
+    return data;
+}
+
+export const deleteContact = async ({contactID, userID}: {userID: string, contactID: number}) => {
+    const { data } = await instance.delete<Contact>(`/users/${userID}/contacts/${contactID}`);
+    return data;
 }

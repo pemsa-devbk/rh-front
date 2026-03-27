@@ -1,15 +1,15 @@
-@import './base/normalize';
-@import './base/base';
+@forward './base/normalize';
+@forward './base/base';
 
-@import './pages/login';
-@import './pages/home';
-@import './pages/users-info';
-@import './pages/register';
-@import './pages/contact';
-@import './pages/viewUser';
-@import './pages/editUser';
+@forward './pages/login';
+@forward './pages/home';
+@forward './pages/users-info';
+@forward './pages/register';
+@forward './pages/contact';
+@forward './pages/viewUser';
+@forward './pages/editUser';
 
 
-@import './components/header';
-@import './components/navbar';
-@import './components/footer';
+@forward './components/header';
+@forward './components/navbar';
+@forward './components/footer';

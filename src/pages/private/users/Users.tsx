@@ -1,60 +1,93 @@
-import { NavLink } from 'react-router-dom';
-import { useUsers } from '../../../hooks/user';
-import { Row } from './components/Row';
+import { useUsers, useUsersByArea, useUsersByCourse, useUsersByEnterprise, useUsersByOffice, useUsersByPosition } from '../../../hooks/user';
 import { useState } from 'react';
+import { Button, Col, Flex, Row, Table, Typography } from 'antd';
+import { ModalCreate } from './components/ModalCreate';
+import { PlusOutlined } from '@ant-design/icons';
+import { User } from '../../../api/interfaces/user';
+import { GetColumns } from './columns';
+import { ModalEdit } from './components/ModalEdit';
+import { DrawerListContact } from '../contacts/components/DrawerListContact';
+import { DrawerListHolidays } from '../holidays/components/DrawerListHolidays';
+import { QueryParams } from '../../../api/interfaces/queryParams';
+import { Enterprise } from '../../../api/interfaces/enterprise';
+import { Office } from '../../../api/interfaces/office';
+import { Area } from '../../../api/interfaces/area';
+import { Position } from '../../../api/interfaces/position';
+import { Course } from '../../../api/interfaces/course';
+import { InputSearch } from '../../../components/InputSearch';
 
-export const Users = () => {
+interface Props {
+    enterprise?: Enterprise;
+    office?: Office;
+    area?: Area;
+    position?: Position;
+    course?: Course;
+}
+export const Users = ({ enterprise, office, area, position, course }: Props) => {
 
-    const { data, isPending } = useUsers();
-    const [search, setSearch] = useState('');
+    const [params, setParams] = useState<QueryParams>({
+        skip: 0,
+        take: 10,
+        search: ''
+    });
+
+    const { data, isPending, refetch } = enterprise ? useUsersByEnterprise(enterprise.enterprise_id, params)
+        : office ? useUsersByOffice(office.office_id, params)
+            : area ? useUsersByArea(area.area_id, params)
+                : position ? useUsersByPosition(position.position_id, params)
+                    : course ? useUsersByCourse(course.course_id, params)
+                        : useUsers(params);
+
+    const [openModal, setOpenModal] = useState({
+        create: false,
+        edit: false,
+        viewContacts: false,
+        viewHolidays: false,
+    });
+    const setStateOpenModal = (type: 'edit' | 'create' | 'viewContacts' | 'viewHolidays') => {
+        setOpenModal((old) => ({ ...old, [type]: !old[type] }));
+    }
+
+    const [selectedUser, setSelectedUser] = useState<User>();
+    const columns = GetColumns({ refetch, setSelectedUser, setStateOpenModal });
+    const setSearch = (search: string) => {
+        setParams((old) => ({ ...old, search }));
+    }
 
     return (
         <>
-            <section className="icons">
+            <Flex justify='space-between' align='center' style={{ marginBottom: '1rem' }}>
+                <Typography.Title style={{ margin: 0, padding: 0 }}>Empleados</Typography.Title>
+                <Button size='large' icon={<PlusOutlined />} type='primary' onClick={() => setStateOpenModal('create')} >Agregar</Button>
+            </Flex>
+            <Row style={{ marginBottom: '2rem', background: '#fff', padding: '1.5rem 1rem', borderRadius: '10px', boxShadow: '2px 5px 5px #e4e4e4' }} gutter={10}>
+                <Col sm={14}>
+                    <Flex vertical gap={10}>
+                        <Typography.Text strong>¿Qué empleado deseas buscar?</Typography.Text>
+                        <InputSearch setSearch={setSearch} />
+                    </Flex>
+                </Col>
+                <Col sm={5}>
+                    {/*  */}
+                </Col>
+                <Col sm={5}>
+                    {/*  */}
+                </Col>
+            </Row>
+            
 
-                <figure>
-                    {/* <svg className='icons__addUser' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" ><path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.952.952 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093zM16.586 8H14V5.414L16.586 8zM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6z"></path><path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"></path></svg> */}
-                </figure>
+            <ModalCreate enterprise={enterprise} office={office} area={area} position={position} onClose={() => setStateOpenModal('create')}  open={openModal.create} />
+            <ModalEdit onClose={() => setStateOpenModal('edit')} open={openModal.edit} user={selectedUser} />
+            <DrawerListContact onClose={() => setStateOpenModal('viewContacts')} open={openModal.viewContacts} userID={selectedUser?.user_id} />
+            <DrawerListHolidays onClose={() => setStateOpenModal('viewHolidays')} open={openModal.viewHolidays} userID={selectedUser?.user_id} /> 
+            <Table<User>
+                pagination={{
+                    current: (params.skip! / params.take!) + 1, pageSize: params.take, total: data?.total,
+                    onChange: (page, pageSize) => setParams((old) => ({ ...old, start: (page - 1) * pageSize, length: pageSize }))
+                }}
+                columns={columns} dataSource={data?.data} loading={isPending} rowKey='user_id'
+            />
 
-                <NavLink to="/dashboard/registro" >
-                    <svg className='icons__addUser' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4.5 8.552c0 1.995 1.505 3.5 3.5 3.5s3.5-1.505 3.5-3.5-1.505-3.5-3.5-3.5-3.5 1.505-3.5 3.5zM19 8h-2v3h-3v2h3v3h2v-3h3v-2h-3zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2z"></path></svg>
-                </NavLink >
-            </section>
-
-            <section className='search'>
-                <input placeholder='Buscar' type="text" value={search} onChange={({target})=> setSearch(target.value)} />
-            </section>
-
-            <table className="table">
-                <thead className="table__header">
-                    <tr>
-                        <th className="table__header-item table__header-item--first">ID-User</th>
-                        <th className="table__header-item">Rol</th>
-                        <th className="table__header-item">Nombre</th>
-                        <th className="table__header-item">CURP</th>
-                        <th className="table__header-item">Fecha ingreso</th>
-                        <th className="table__header-item table__header-item--end">Opciones</th>
-                    </tr>
-                </thead>
-
-                <tbody className="table__body">
-                    {
-                        isPending &&
-                        <tr>
-                            <td colSpan={6}>
-                                cargando........
-                            </td>
-                        </tr>
-                    }
-
-                    {
-                        data?.filter(user=> user.name.toLowerCase().includes(search.toLowerCase())|| user.id.toLowerCase().includes(search.toLowerCase())).map(user => (
-                           <Row user={user} key={user.id}/>
-                        ))
-                    }
-
-                </tbody>
-            </table>
         </>
 
     )

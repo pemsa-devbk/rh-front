@@ -6,7 +6,7 @@ import { useAuthStore } from '../../../store/auth/auth.store';
 import { useForm,SubmitHandler } from 'react-hook-form';
 
 type Inputs = {
-    id: string
+    user_id: string
     password: string
 }
 
@@ -26,7 +26,7 @@ export const Login = () => {
 
       const onSubmit: SubmitHandler<Inputs> = (data) => {
 
-        login(data.id, data.password)
+        login(data.user_id, data.password)
       }
 
       if(status=="Pendiente"){
@@ -43,7 +43,7 @@ export const Login = () => {
         <main className="card">
             <form className="card__texts" onSubmit={handleSubmit(onSubmit)}>
                 <h1 className="card__title">Gestión de usuario</h1>
-                <input {...register("id")} className="card__username" placeholder="Nombre de usuario" type="text" />
+                <input {...register("user_id")} className="card__username" placeholder="Nombre de usuario" type="text" />
                 <input {...register("password")} className="card__username" placeholder="Contraseña" type="password" />
 
                 <button className="card__submit" type="submit">Log in</button>

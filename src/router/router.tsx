@@ -2,80 +2,125 @@ import { createBrowserRouter } from "react-router-dom";
 import { Login } from "../pages/public/login/Login";
 import { LayoutDashboard } from "../pages/private/LayoutDashboard";
 import Home from "../pages/private/Home";
-import { Users } from "../pages/private/users/Users";
-import Register from "../pages/private/users/Register";
-import Contact from "../pages/private/contacts/Contact";
 import ViewUser from "../pages/private/users/ViewUser";
-import { EditUser } from "../pages/private/users/EditUser";
 import Root from "../pages/Root";
+import { Areas } from "../pages/private/areas/Areas";
+import { Offices } from "../pages/private/offices/Offices";
+import { SpecialUsers } from "../pages/private/config/SpecialUsers";
+import { Holidays } from "../pages/private/holidays/Holidays";
+import { Enterprises } from "../pages/private/enterprises/Enterprises";
+import { Courses } from "../pages/private/courses/Courses";
+import { Enterprise } from "../pages/private/enterprises/Enterprise";
+import { Office } from "../pages/private/offices/Office";
+import { Area } from "../pages/private/areas/Area";
+import { Positions } from "../pages/private/position/Positions";
+import { Position } from "../pages/private/position/Position";
+import { Employees } from "../pages/private/employees/Employees";
+import { CreateEmployee } from "../pages/private/employees/CreateEmployee";
+import { Departments } from "../pages/private/departments/Departments";
+import { Department } from "../pages/private/departments/Department";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Root/>,
+        element: <Root />,
         errorElement: <div>ErrorPage</div>,
         children: [
             {
                 path: "login",
                 element: <Login />
             },
-            // ! { Se deben de eliminar las rutas que no se utlizan
-            //     path: "contador",
-            //     element: <Contador />
-            // },
             {
                 path: "dashboard",
                 element: <LayoutDashboard />,
                 children: [
                     {
                         path: "home",
-                        element: 
+                        element:
                             <div className="container__body container__body--center">
-                            <Home/>
-                        </div>
+                                <Home />
+                            </div>
+                    },
+                    // {
+                    //     path: "usuarios",
+                    //     element: <Users />,
+                    // },
+                    {
+                        path: 'employees',
+                        element: <Employees />
                     },
                     {
-                        path: "usuarios",
-                        element: 
-                        <div className="container__body container__body--users">
-                            <Users/>
-                        </div>,
-                        // children:[ la primera es dejarlo sin clase y ocupar un fragment en nuestro html
-                        //     { //segunda solución
-                        //         path: "registro",
-                        //         element: <div className="container__body container__body--register">
-                        //             <Register/>
-                        //         </div>
-                        //     }
-                            
-                        // ]
+                        path: 'employees/create',
+                        element: <CreateEmployee />
                     },
                     {
-                        path: "registro",
-                        element: <div className="container__body container__body--center">
-                            <Register/>
-                        </div>
+                        path: 'enterprises', 
+                        element: <Enterprises />
                     },
                     {
-                        path: "contacto/:id",
-                        element: <div className="container__body container__body--contact">
-                            <Contact/>
-                        </div>
+                        path: 'enterprises/:id', 
+                        element: <Enterprise />
                     },
                     {
-                        path:"mostarInfo/:id",
-                        element: <div className="container__body container__body--mostrarInfo">
-                            <ViewUser/>
-                        </div>
+                        path: 'enterprises/:enterpriseID/offices/:officeID',
+                        element: <Office />
                     },
                     {
-                        path:"editarUsuario/:id",
-                        element: <div className="container__body container__body--center" > 
-                            <EditUser/>
-                        </div>
+                        path: 'offices',
+                        element: <Offices />
+                    },
+                    {
+                        path: 'offices/:officeID/departments/:departmentID',
+                        element: <Department />
+                    },
+                    {
+                        path: 'departments',
+                        element: <Departments />
+                    },
+                    {
+                        path: 'departments/:departmentID/areas/:areaID',
+                        element: <Area />
+                    },
+                    {
+                        path: 'areas',
+                        element: <Areas />
+                    },
+                    {
+                        path: 'areas/:areaID/positions/:positionID',
+                        element: <Position />
+                    },
+                    {
+                        path: 'positions',
+                        element: <Positions />
+                    },
+
+
+
+                    {
+                        path: "mostarInfo/:id",
+                        element:
+                            <ViewUser />
+                    },
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    {
+                        path: 'courses',
+                        element: <Courses />
+                    },
+                    {
+                        path: 'special-users',
+                        element: <SpecialUsers />
+                    },
+                    {
+                        path: 'config-holiday',
+                        element: <Holidays />
                     }
-                   
                 ],
             }
         ],
