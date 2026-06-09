@@ -14,6 +14,7 @@ export interface Enterprise {
 export interface CreateEnterpriseDTO{
     name: string;
     address: string;
+    signature: FormSignature;
 }
 export type UpdateEnterpriseDTO = Partial<CreateEnterpriseDTO>;
 
@@ -34,6 +35,7 @@ export interface FormSignature{
     vertical_text: string | null;
     color_vertical_text: string | null;
 }
+export type FormEnterprise = Omit<CreateEnterpriseDTO, 'signature'> & FormSignature;
 
 export interface Signature{
     signature_id: string;

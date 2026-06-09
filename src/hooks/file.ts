@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { createDirectory, deleteFile, getFiles, renameFile } from "../api/file"
+import { getAll ,createDirectory, deleteFile, getFiles, renameFile } from "../api/file"
 
-export const useGetFiles = (id?: string, path?: string) => {
+export const useGetFiles = () => {
     return useQuery({
-        queryKey: ['files', id, path],
-        queryFn: () => getFiles(id!, path),
+        queryKey: ['files'],
+        queryFn: () => getAll(),
         staleTime: 3000,
-        enabled: !!id
     })
 }
 export const useDeleteFile = () => {

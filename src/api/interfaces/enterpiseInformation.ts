@@ -3,7 +3,19 @@ export interface EnterpiseInformation {
     phone: string | null;
     cell_phone: string | null;
     ext: string | null;
-    user_id: string;
+    employee_id: string;
 }
 
-export type CreateEnterpiseInformationDTO = Omit<EnterpiseInformation, 'user_id'>;
+export interface CreateEnterpiseInformationDTO {
+    email: string;
+    phone: string | null;
+    cell_phone: string | null;
+    ext: string | null;
+}
+
+export interface UpdateEnterpriseInformationDTO{
+    email?: string;
+    phone?: string | null;
+    cell_phone?: string | null;
+    ext?: string | null;
+}

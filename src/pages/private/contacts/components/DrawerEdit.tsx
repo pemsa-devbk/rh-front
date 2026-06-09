@@ -19,7 +19,7 @@ export const DrawerEdit = ({ onClose, open, contact }: Props) => {
 
     const handleFormSubmit = (values: any) => {
         const changes = getUpdatedFields(contact!, values);
-        updateContact({ contactID: contact!.contact_id, userID: contact!.user_id, data: changes });
+        updateContact({ contactID: contact!.contact_id, employeeID: contact!.employee_id, data: changes });
     }
     useEffect(() => {
         form.setFieldsValue(contact);

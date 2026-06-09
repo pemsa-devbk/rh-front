@@ -3,8 +3,15 @@ export enum LicenseType{
     PRIVATE = 2,
 }
 
-export interface CreateLicenseDTO{
-    issue_date: Date;
+export interface License{
+    issue_date: string;
     type: LicenseType;
-    validity: Date;
+    validity: string;
+    employee_id: string;
+}
+
+export interface CreateLicenseDTO{
+    issue_date: string;
+    type: LicenseType;
+    validity: string;
 }

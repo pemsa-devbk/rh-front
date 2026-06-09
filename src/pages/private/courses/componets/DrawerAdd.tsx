@@ -1,10 +1,9 @@
 import { Button, Drawer, Form, Space } from 'antd';
-import  { useState } from 'react'
-import { useAssignUsersToCourse } from '../../../../hooks/course';
-import { Course, FormAssignUsers } from '../../../../api/interfaces/course';
-import { useInfiniteUsers } from '../../../../hooks/user';
+import { useAssignEmployeesToCourse } from '../../../../hooks/course';
+import { Course, FormAssignEmployees } from '../../../../api/interfaces/course';
 import { SelectWithSearch } from '../../../../components/SelectWithSearch';
-import { User } from '../../../../api/interfaces/user';
+import { useInfiniteEmployees } from '../../../../hooks/employee';
+import { Employee } from '../../../../api/interfaces/employee';
 
 interface Props {
     open: boolean;
@@ -13,13 +12,11 @@ interface Props {
 }
 
 export const DrawerAdd = ({ onClose, open, course }: Props) => {
-    const { mutate } = useAssignUsersToCourse();
-    const [form] = Form.useForm<FormAssignUsers>();
-    const [search, setSearch] = useState('');
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteUsers(open, search);
+    const { mutate } = useAssignEmployeesToCourse();
+    const [form] = Form.useForm<FormAssignEmployees>();
 
-    const handleFormSubmit = (values: FormAssignUsers) => {
-        mutate({formUsersAssign: values, courseID: course!.course_id}, {
+    const handleFormSubmit = (values: FormAssignEmployees) => {
+        mutate({formAssignEmployees: values, courseID: course!.course_id}, {
             onSuccess() {
                 form.resetFields();
                 onClose();
@@ -47,19 +44,14 @@ export const DrawerAdd = ({ onClose, open, course }: Props) => {
                 form={form}
                 onFinish={handleFormSubmit}
             >
-                <SelectWithSearch<User>
+                <SelectWithSearch<Employee>
                     label="Usuarios que tomarán el curso"
                     name="users"
                     mode='multiple'
                     placeHolder="Seleccione los usuarios"
-                    fetchNextPage={fetchNextPage}
-                    loading={isFetchingNextPage || isFetching}
-                    hasNextPage={hasNextPage}
-                    isFetchingNextPage={isFetchingNextPage}
                     labelKey='name'
                     valueKey='user_id'
-                    items={data}
-                    setSearch={setSearch}
+                    useQuery={(search, enabled) => useInfiniteEmployees(enabled, search)}
                 />
 
             </Form>

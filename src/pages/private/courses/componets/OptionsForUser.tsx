@@ -1,9 +1,9 @@
 import { Button, Popconfirm, Space, Tooltip, Upload } from 'antd'
-import { User } from '../../../../api/interfaces/user'
 import { DeleteOutlined, DownloadOutlined, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
+import { Employee } from '../../../../api/interfaces/employee';
 
 interface Props {
-    user: User;
+    user: Employee;
     onDelete: () => void;
     isDeleting: boolean;
     isUpload: boolean;
@@ -15,7 +15,7 @@ export const OptionsForUser = ({ user, onDelete, isDeleting, handleCustomRequest
     return (
         <Space>
             {
-                user.courseUsers[0].haveProof&&
+                user.have_proof&&
                     <Tooltip title="Descargar comprobante">
                         <Button onClick={handleDownload} size='small' variant='filled' color='blue' icon={<DownloadOutlined />}></Button>
                     </Tooltip>
@@ -26,15 +26,8 @@ export const OptionsForUser = ({ user, onDelete, isDeleting, handleCustomRequest
                     name='file'
                     maxCount={1}
                     customRequest={(options) => handleCustomRequest(options)}
-                    // beforeUpload={(file) => {
-                    //     const isPNG = file.type === 'image/png' || file.type === 'image/jpeg';
-                    //     if (!isPNG) {
-                    //         message.error(`${file.name} no es un formato soportado`);
-                    //     }
-                    //     return isPNG || Upload.LIST_IGNORE;
-                    // }}
                 >
-                    <Button loading={isUpload} size='small' variant='filled' color='blue' icon={<UploadOutlined />} />
+                    <Button loading={isUpload} disabled={isUpload} size='small' variant='filled' color='blue' icon={<UploadOutlined />} />
                 </Upload>
             </Tooltip>
 

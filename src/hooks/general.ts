@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getRoles, getConfig, updateConfig } from "../api/general"
+import { notification } from "antd"
 
 
 export const useRoles = () => {
@@ -15,8 +16,16 @@ export const useSpecialUsers = () => {
     })
 }
 
-export const useUpdateConfig = () => {
+export const useUpdateConfig = (actions?: () => void) => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: updateConfig
+        mutationFn: updateConfig,
+        onSuccess() {
+            notification.success({
+                message: 'Se actualizo la configuración'
+            });
+            queryClient.invalidateQueries({ queryKey: ['config-users'] });
+            actions && actions();
+        },
     })
 }

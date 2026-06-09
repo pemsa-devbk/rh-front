@@ -1,5 +1,12 @@
+import { File } from "./interfaces/file";
 import { instance } from "./rh";
 
+export const getAll = async() => {
+    const {data} = await instance.get<Array<File>>(`files`);
+    return data; 
+}
+
+// ! Se van a eliminar
 export const getFiles = async (id: string, path: string = '') => {
     const { data } = await instance.get<{ content: Array<{ name: string; type: 'directory' | 'file'; }> }>(`files/docs/${id}/${path}`);
     return data.content;

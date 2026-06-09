@@ -4,29 +4,33 @@ import { useCreateContacts } from '../../../../hooks/contact';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 interface Props {
-    onClose: () => void;
+    onClose: (key: string) => void;
+    modalKey: string;
     open: boolean;
-    id?: string;
+    employeeID: string;
 }
-export const DrawerCreate = ({ onClose, open, id }: Props) => {
+export const DrawerCreate = ({ onClose, open, employeeID,modalKey }: Props) => {
     const [form] = Form.useForm<MultipleContact>();
     const { mutate: createContacts } = useCreateContacts(() => {
         form.resetFields();
-        onClose();
+        onClose(modalKey);
     });
     const handleFormSubmit = (values: MultipleContact) => {
-        createContacts({ userID: id!, data: values });
+        createContacts({ employeeID: employeeID, data: values });
+    }
+    const handleCloseModal = () => {
+        onClose(modalKey)
     }
 
     return (
         <Drawer
             title="Crear contactos"
             size='large'
-            onClose={onClose}
+            onClose={handleCloseModal}
             open={open}
             extra={
                 <Space>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={handleCloseModal}>Cancel</Button>
                     <Button type='primary' onClick={() => form.submit()}>Guardar</Button>
                 </Space>
             }

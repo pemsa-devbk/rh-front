@@ -19,6 +19,9 @@ export const useCreateOffice = ( actions?: () => void) => {
             actions && actions();
             
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -32,6 +35,9 @@ export const useUpdateOffice = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['enterprises', enterprise_id, 'offices', office_id] });
             queryClient.invalidateQueries({ queryKey: ['enterprises', enterprise_id, 'infinite-offices'] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -49,6 +55,9 @@ export const useDeleteOffice = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['offices'] });
             queryClient.removeQueries({ queryKey: ['enterprises', enterprise_id, 'offices', office_id] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -76,20 +85,6 @@ export const useOfficesByEnterprise = (enterpriseID: string, queryParams: QueryP
         staleTime: (1000 * 60),
     })
 }
-
-// export const useInfiniteOffices = (enabled: boolean, search: string) => {
-//     return useInfiniteQuery({
-//         queryKey: ['infinite-offices', { search }],
-//         queryFn: ({ pageParam }) => getOffices({ take: 10, skip: pageParam * 10, search }),
-//         staleTime: 3000,
-//         initialPageParam: 0,
-//         enabled,
-//         getNextPageParam: (lastPage, allPages) => {
-//             const totalLoaded = allPages.reduce((acc, page) => acc + page.data.length, 0);
-//             return totalLoaded < lastPage.total ? allPages.length : undefined;
-//         },
-//     })
-// }
 
 export const useInfiniteOfficesByEnterprice = (id: string, enabled: boolean, search: string) => {
     return useInfiniteQuery({

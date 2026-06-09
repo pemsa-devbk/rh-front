@@ -1,49 +1,51 @@
-import { FormHoliday, Holiday, HolidayConfig, HolidayCOnfigForm, HolidayResponseCreate } from "./interfaces/holiday";
+import { FormHoliday, Holiday, HolidayConfig, HolidayConfigForm, HolidayResponseCreate } from "./interfaces/holiday";
 import { QueryParams } from "./interfaces/queryParams";
 import { ResponseMessage, ResponsePagination } from "./interfaces/response";
 import { instance } from "./rh";
 
-export const getHolidays = async (id: string, queryParams: QueryParams) => {
-    const { data } = await instance.get<ResponsePagination<Holiday>>(`users/${id}/holidays`, { params: queryParams });
+export const getHolidaysByEmployee = async (employeeID: string, queryParams: QueryParams) => {
+    const { data } = await instance.get<ResponsePagination<Holiday>>(`employees/${employeeID}/holidays`, { params: queryParams });
     return data;
 }
 
-export const cancelHoliday = async ({holidayID, userID}:{holidayID: number, userID: string}) => {
-    const { data } = await instance.get<ResponseMessage>(`users/${userID}/holidays/${holidayID}`);
+export const cancelHoliday = async ({ holidayID, employeeID }: { holidayID: number, employeeID: string }) => {
+    const { data } = await instance.patch<ResponseMessage>(`employees/${employeeID}/holidays/${holidayID}/cancel`);
     return data.message;
 }
 
-export const downloadFormatHoliday = async (userID: string, holidayID: number) => {
-    const response = await instance.get<Blob>(`users/${userID}/holidays/${holidayID}/format`, {
+export const createHoliday = async ({ employeeID, form }: { employeeID: string, form: FormHoliday }) => {
+    const { data } = await instance.post<HolidayResponseCreate>(`employees/${employeeID}/holidays`, form);
+    return data;
+}
+
+export const uploadProof = async ({ holidayID, employeeID, formData }: { employeeID: string, holidayID: number, formData: FormData }) => {
+    const { data } = await instance.post(`/employees/${employeeID}/holidays/${holidayID}/proof`, formData);
+    return data;
+}
+
+
+export const downloadProofHoliday = async ({employeeID, holidayID}:{employeeID: string, holidayID: number}) => {
+    const response = await instance.get<Blob>(`employees/${employeeID}/holidays/${holidayID}/proof`, {
         responseType: 'blob',
         headers: {
             'Accept': 'application/pdf, image/*, application/octet-stream',
         }
     });
-    return {blob: response.data, headers: response.headers};
+    return { blob: response.data, headers: response.headers };
 }
 
-export const createHoliday = async (params: { userID: string, data: FormHoliday }) => {
-    const { data } = await instance.post<HolidayResponseCreate>(`users/${params.userID}/holidays`, params.data);
-    return data;
-}
-
-export const uploadVoucher = async ({ id, formData }: { id: number, formData: FormData }) => {
-    const { data } = await instance.post(`/holidays/${id}/voucher`, formData);
-    return data;
-}
-
+// * Configuración de vacaciones
 export const getConfigHolidays = async () => {
-    const { data } = await instance.get<{ config: HolidayConfig[] }>(`configuration/holiday`);
+    const { data } = await instance.get<{ config: HolidayConfig[] }>(`configuration/holidays`);
     return data.config;
 }
 
-export const createConfig = async (dataSend: HolidayCOnfigForm) => {
+export const createConfig = async (dataSend: HolidayConfigForm) => {
     const { data } = await instance.post(`configuration/holidays`, dataSend);
     return data;
 }
 
-export const updateConfig = async ({ dataSend, id }: { id: number, dataSend: Partial<HolidayCOnfigForm> }) => {
+export const updateConfig = async ({ dataSend, id }: { id: number, dataSend: Partial<HolidayConfigForm> }) => {
     const { data } = await instance.patch(`configuration/holidays/${id}`, dataSend);
     return data;
 }

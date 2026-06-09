@@ -1,18 +1,18 @@
 import { forwardRef, useEffect, useImperativeHandle } from 'react'
-import { CreateEnterpiseInformationDTO } from '../../../../api/interfaces/enterpiseInformation';
-import { FormStepRef } from '../CreateEmployee';
 import { Col, Form, Input, Row } from 'antd';
+import { StepFive } from '../../../../api/interfaces/employee';
+import { FormStepRef } from '../../employees/CreateEmployee';
 
 interface Props {
-    initialValues?: Partial<CreateEnterpiseInformationDTO>;
-    onNext: (values: CreateEnterpiseInformationDTO) => void;
+    initialValues?: Partial<StepFive>;
+    onNext: (values: StepFive) => void;
     onBack: () => void;
 }
 // TODO Si se va a poder crear desde las entidades empresa, oficina, departamento, area o puesto añadir props y seguir el ejemplo de DrawerCreatePosition para los fixed.
 
-export const FormEnterpriseInformation = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
-    const [form] = Form.useForm<CreateEnterpiseInformationDTO>();
-    const phoneValue = Form.useWatch('phone', form);
+export const StepEnterpriseInformation = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
+    const [form] = Form.useForm<StepFive>();
+    const phoneValue = Form.useWatch('phone_enterprise', form);
 
     useImperativeHandle(ref, () => ({
         submit: () => form.submit(),
@@ -34,7 +34,7 @@ export const FormEnterpriseInformation = forwardRef<FormStepRef, Props>(({ onBac
             <Row gutter={16}>
                 <Col span={8}>
                     <Form.Item
-                        name='email'
+                        name='email_enterprise'
                         label='Correo electronico'
                         rules={[{ type: 'email', message: 'Formato no valido para correo' }]}
                     >
@@ -43,9 +43,9 @@ export const FormEnterpriseInformation = forwardRef<FormStepRef, Props>(({ onBac
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name='phone'
+                        name='phone_enterprise'
                         label='Telefono'
-                        rules={[{ len: 10, message: 'El telefono consta de 5 digitos' }]}
+                        rules={[{ len: 10, message: 'El telefono consta de 10 digitos' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -54,14 +54,14 @@ export const FormEnterpriseInformation = forwardRef<FormStepRef, Props>(({ onBac
                     <Form.Item
                         name='ext'
                         label='Extensión'
-                        rules={[{ max: 6, message: 'El telefono consta de 5 digitos' }]}
+                        rules={[{ max: 6, message: 'La extensión consta de 5 digitos' }]}
                     >
                         <Input disabled={!phoneValue} />
                     </Form.Item>
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name='cell_phone'
+                        name='cell_phone_enterprise'
                         label='Celular'
                     // rules={[{ len: 6, message: 'El telefono consta de 5 digitos' }]}
                     >

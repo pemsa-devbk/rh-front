@@ -1,34 +1,37 @@
 import { FormHoliday } from '../../../../api/interfaces/holiday';
 import { Button, DatePicker, Drawer, Form, Input, message, Space } from 'antd';
 import { useCreateHoliday } from '../../../../hooks/holiday';
-import dayjs from 'dayjs';
+import dayjs from '../../../../helpers/dayjs';
 interface Props {
-    onClose: () => void;
+    onClose: (key: string) => void;
     open: boolean;
-    userID?: string;
+    modalKey: string;
+    employeeID: string;
 }
-export const DrawerCreate = ({ onClose, open, userID }: Props) => {
+export const DrawerCreate = ({ onClose, open, employeeID, modalKey }: Props) => {
     const [form] = Form.useForm<FormHoliday>();
-    const {mutate} = useCreateHoliday();
+    const { mutate } = useCreateHoliday();
 
     const handleFormSubmit = (values: FormHoliday) => {
-        values.days = values.days.map(day => dayjs(day).format('YYYY-MM-DD'));
-        mutate({ userID: userID!, data: values }, {
+        mutate({ employeeID: employeeID!, form: values }, {
             onSuccess() {
                 message.success('Solicitud creada');
                 form.resetFields();
-                onClose();
+                onClose(modalKey);
             },
         })
+    }
+    const handleCloseModal = () => {
+        onClose(modalKey)
     }
     return (
         <Drawer
             title="Solicictud de vacaciones"
-            onClose={onClose}
+            onClose={handleCloseModal}
             open={open}
             extra={
                 <Space>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={handleCloseModal}>Cancel</Button>
                     <Button type='primary' onClick={() => form.submit()}>Guardar</Button>
                 </Space>
             }
@@ -37,8 +40,14 @@ export const DrawerCreate = ({ onClose, open, userID }: Props) => {
                 <Form.Item
                     name='days'
                     label="Días"
+                    getValueProps={(value) => {
+                        //@ts-ignore
+                        return value?.map(date => dayjs(date)) || null;
+                    }}
+                    //@ts-ignore
+                    normalize={(value) => value ? value.map( date => date.format('YYYY-MM-DD')) : null}
                 >
-                    <DatePicker multiple maxTagCount="responsive"  />
+                    <DatePicker multiple maxTagCount="responsive" />
                 </Form.Item>
                 <Form.Item
                     name='comment'

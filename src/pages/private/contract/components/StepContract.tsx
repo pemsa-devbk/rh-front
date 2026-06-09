@@ -1,4 +1,4 @@
-import { Col, DatePicker, Form, Input, InputNumber, Radio, Row, Typography } from 'antd'
+import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd'
 import { forwardRef, useEffect, useImperativeHandle } from 'react'
 import { SelectWithSearch } from '../../../../components/SelectWithSearch'
 import { Enterprise } from '../../../../api/interfaces/enterprise'
@@ -11,18 +11,21 @@ import { Area } from '../../../../api/interfaces/area'
 import { useInfiniteAreasByDepartment } from '../../../../hooks/area'
 import { Position } from '../../../../api/interfaces/position'
 import { useInfinitePositionsByArea } from '../../../../hooks/position'
-import { ContractForm } from '../../../../api/interfaces/contract'
-import { FormStepRef } from '../CreateEmployee'
+import { Employee, StepFour } from '../../../../api/interfaces/employee'
+import { useInfiniteEmployees } from '../../../../hooks/employee'
+import { getColoniesByPostal } from '../../../../api/mx'
+import { FormStepRef } from '../../employees/CreateEmployee'
+import dayjs from '../../../../helpers/dayjs'
 
 interface Props {
-    initialValues?: Partial<ContractForm>;
-    onNext: (values: ContractForm) => void;
+    initialValues?: Partial<StepFour>;
+    onNext: (values: StepFour) => void;
     onBack: () => void;
 }
 
-export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onNext, onBack }, ref) => {
+export const StepContract = forwardRef<FormStepRef, Props>(({ initialValues, onNext, onBack }, ref) => {
 
-    const [form] = Form.useForm<ContractForm>();
+    const [form] = Form.useForm<StepFour>();
     const enterpriseValue = Form.useWatch('enterprise', form);
     const officeValue = Form.useWatch('office', form);
     const departmentValue = Form.useWatch('department', form);
@@ -38,13 +41,14 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
     }
 
     useEffect(() => {
-        if (typevalue == 2) form.setFieldsValue({ validity: undefined })
+        if (typevalue == 2) form.setFieldsValue({ validity_contract: undefined })
     }, [typevalue])
 
     useImperativeHandle(ref, () => ({
         submit: () => form.submit(),
         back: onBack,
     }));
+
 
 
     return (
@@ -135,6 +139,19 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
                 </Col>
 
                 <Col span={8}>
+                    <SelectWithSearch<Employee>
+                        label="jefe directo"
+                        name="boss"
+                        placeHolder={"Seleccione el jefe directo"}
+                        labelKey='name'
+                        labelInValue
+                        valueKey='user_id'
+                        useQuery={(search, enabled) => useInfiniteEmployees(enabled, search)}
+                        required
+                    />
+                </Col>
+
+                <Col span={8}>
                     <Form.Item
                         name='salary'
                         label='Salario'
@@ -147,7 +164,28 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
                     <Form.Item
                         name='cp_csf'
                         label='CP de constancia de situación fiscal'
-                        rules={[{ required: true, message: 'El codigo postal es obligatorio' }]}
+                        rules={[
+                            {
+                                validator(_, value) {
+                                    if (value) {
+                                        if (value.length != 5) {
+                                            return Promise.reject(new Error('El codigo postal debe contener 5 caracteres'))
+                                        } else {
+                                            return new Promise((res, rej) => {
+                                                getColoniesByPostal(value)
+                                                    .then(() => res)
+                                                    .catch(error => {
+                                                        if (error instanceof Error)
+                                                            return rej(error)
+                                                        else return rej(new Error('Error en la validación de codigo postal'))
+                                                    })
+                                            })
+                                        }
+                                    }
+                                    return Promise.resolve();
+                                },
+                            }
+                        ]}
                     >
                         <Input />
                     </Form.Item>
@@ -157,6 +195,10 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
                         name='date_entry'
                         label='Fecha de ingreso'
                         rules={[{ required: true, message: 'La fecha de ingreso es obligatoria' }]}
+                        getValueProps={(value) => ({
+                            value: value ? dayjs(value) : null
+                        })}
+                        normalize={(value) => value ? value.format('YYYY-MM-DD') : null}
                     >
                         <DatePicker placeholder='' style={{ width: '100%' }} format={'YYYY-MM-DD'} />
                     </Form.Item>
@@ -177,9 +219,13 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
 
                 <Col span={8}>
                     <Form.Item
-                        name='validity'
+                        name='validity_contract'
                         label='Fecha termino'
                         rules={[{ required: (typevalue && typevalue == 1), message: 'Ingrese la fecha de termino' }]}
+                        getValueProps={(value) => ({
+                            value: value ? dayjs(value) : null
+                        })}
+                        normalize={(value) => value ? value.format('YYYY-MM-DD') : null}
                     >
                         <DatePicker disabled={!typevalue || typevalue == 2} placeholder='' style={{ width: '100%' }} format={'YYYY-MM-DD'} />
                     </Form.Item>
@@ -212,6 +258,27 @@ export const FormContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
                         rules={[{ len: 10, message: 'El número de creidto infonavit debe contener 8 digitos' }]}
                     >
                         <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name='cred_fonacot'
+                        label='Número de credito fonacot'
+                        rules={[{ len: 10, message: 'El número de creidto fonacot debe contener 20 digitos' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Col>
+                <Col span={8}>
+                    <Form.Item
+                        name='have_alimony'
+                        label='Pensión alimenticia?'
+                        rules={[{ required: true, message: 'Seleccione una opcion' }]}
+                    >
+                        <Radio.Group block buttonStyle='outline' optionType='button'>
+                            <Radio value={true}>Si</Radio>
+                            <Radio value={false}>No</Radio>
+                        </Radio.Group>
                     </Form.Item>
                 </Col>
             </Row>

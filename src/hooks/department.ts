@@ -19,6 +19,9 @@ export const useCreateDepartment = (actions?: Actions) => {
             queryClient.invalidateQueries({ queryKey: ['offices', officeID, 'infinite-departments'] });
             actions && actions();
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     });
 }
 
@@ -33,6 +36,9 @@ export const useUpdateDepartment = (actions?: Actions) => {
             queryClient.invalidateQueries({ queryKey: ['offices', officeID, 'departments'] });
             queryClient.invalidateQueries({ queryKey: ['offices', officeID, 'infinite-departments'] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     });
 }
@@ -51,6 +57,9 @@ export const useDeleteDepartment = (actions?: Actions) => {
             queryClient.invalidateQueries({ queryKey: ['offices', officeID, 'departments'] });
             queryClient.invalidateQueries({ queryKey: ['offices', officeID, 'infinite-departments'] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     });
 }

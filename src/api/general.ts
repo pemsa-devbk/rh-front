@@ -9,7 +9,7 @@ export interface SpecialUser {
     key: string;
     description: string;
     user_id: string | null;
-    user: { user_id: string; name: string; } | null
+    user_name: string | null;
 }
 
 export interface FormConfig {

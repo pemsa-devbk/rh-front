@@ -3,8 +3,9 @@ import { DefaultOptionType } from "./general";
 export interface BankingInformation {
     CLABE: string;
     account_number: string;
-    user_id: string;
+    employee_id: string;
     bank_id: number;
+    bank_name: string;
 }
 
 export interface BankingInformationForm {

@@ -1,18 +1,19 @@
 import { forwardRef, useImperativeHandle } from 'react'
-import { Bank, BankingInformationForm } from '../../../../api/interfaces/banking';
-import { FormStepRef } from '../CreateEmployee';
 import { Col, Form, Input, Row } from 'antd';
 import { SelectWithSearch } from '../../../../components/SelectWithSearch';
 import { useInfiniteBanks } from '../../../../hooks/bank';
+import { StepSix } from '../../../../api/interfaces/employee';
+import { Bank } from '../../../../api/interfaces/banking';
+import { FormStepRef } from '../../employees/CreateEmployee';
 
 interface Props {
-  initialValues?: Partial<BankingInformationForm>;
-  onNext: (values: BankingInformationForm) => void;
+  initialValues?: Partial<StepSix>;
+  onNext: (values: StepSix) => void;
   onBack: () => void;
 }
 
-export const FormBanking = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
-  const [form] = Form.useForm<BankingInformationForm>();
+export const StepBanking = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
+  const [form] = Form.useForm<StepSix>();
 
   useImperativeHandle(ref, () => ({
     submit: () => form.submit(),

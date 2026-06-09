@@ -35,9 +35,9 @@ export const DrawerEdit = ({ onClose, open, enterprise }: Props) => {
             onClose={onClose}
             extra={
                 <Space>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onClose}>Cancelar</Button>
                     <Button type="primary" onClick={() => form.submit()}>
-                        Guardar
+                        Actualizar
                     </Button>
                 </Space>
             }

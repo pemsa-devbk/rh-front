@@ -17,13 +17,13 @@ export const ModalEdit = ({ onClose, open, enterprise }: Props) => {
     const [form] = Form.useForm<FormSignature>();
     const { mutate } = useUpdateSignature();
     const [loading, setLoading] = useState(false);
-    const {data, isLoading} = useSignature(enterprise?.signature_id);
+    const {data} = useSignature(enterprise?.enterprise_id);
 
     const hanldePreview = async () => {
         setLoading(true);
         const values = form.getFieldsValue();
         try {
-            const data = await priviewSignature({ id: enterprise!.enterprise_id, body: values });
+            const data = await priviewSignature({ name: enterprise!.name, address: enterprise!.address, ...values });
             const url = URL.createObjectURL(data);
             setImage(url);
         } catch (error) {
@@ -34,7 +34,7 @@ export const ModalEdit = ({ onClose, open, enterprise }: Props) => {
     }
 
     const handleSubmit = (values: FormSignature) => {
-        mutate({id: data!.signature_id, body: values});
+        mutate({id: data!.enterprise_id, body: values});
     }
 
     const getColorHex = (e: Color) => {
@@ -48,11 +48,14 @@ export const ModalEdit = ({ onClose, open, enterprise }: Props) => {
 
     return (
         <Modal
-            title="Crear Firma"
+            title="Actualizar firma"
             open={open}
             width={'100%'}
             okText="Guardar"
-            onCancel={onClose}
+            onCancel={() => {
+                onClose();
+                setImage(undefined);
+            }}
             onOk={() => form.submit()}
             footer={(_, { OkBtn, CancelBtn }) => (
                 <>

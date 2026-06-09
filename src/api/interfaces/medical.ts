@@ -2,7 +2,7 @@
 export enum BloodType {
     A = "A+",
     AN = "A-",
-    BP = "B+",
+    B = "B+",
     BN = "B-",
     AB = "AB+",
     ABN = "AB-",
@@ -15,7 +15,7 @@ export interface Medical{
     allergies: string | null;
     nss: string | null;
     diseases: string | null;
-    user_id: string;
+    employee_id: string;
 }
 
-export type CreateMedicalDTO = Omit<Medical, 'user_id'>;
+export type CreateMedicalDTO = Omit<Medical, 'employee_id'>;

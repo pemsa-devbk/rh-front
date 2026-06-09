@@ -1,13 +1,13 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { cancelHoliday, createConfig, createHoliday, deleteConfig, downloadFormatHoliday, getConfigHolidays, getHolidays, updateConfig } from "../api/holiday";
+import { cancelHoliday, createConfig, createHoliday, deleteConfig, downloadProofHoliday, getConfigHolidays, getHolidaysByEmployee, updateConfig, uploadProof } from "../api/holiday";
 import { QueryParams } from "../api/interfaces/queryParams";
 import { Button, notification } from "antd";
 import { downloadFile } from "../helpers/download";
 
-export const useInfiniteHolidays = (userID: string, enabled: boolean) => {
+export const useInfiniteHolidaysByEmployee = (employeeID: string, enabled: boolean = true) => {
     return useInfiniteQuery({
-        queryKey: ['users', userID, 'infinite-holidays'],
-        queryFn: ({ pageParam }) => getHolidays(userID, { take: 10, skip: pageParam * 10 }),
+        queryKey: ['employees', employeeID, 'infinite-holidays'],
+        queryFn: ({ pageParam }) => getHolidaysByEmployee(employeeID, { take: 10, skip: pageParam * 10 }),
         staleTime: 3000,
         initialPageParam: 0,
         enabled,
@@ -18,10 +18,10 @@ export const useInfiniteHolidays = (userID: string, enabled: boolean) => {
     })
 }
 
-export const useHolidays = (userID: string, queryParams: QueryParams, enabled: boolean) => {
+export const useHolidays = (employeeID: string, queryParams: QueryParams, enabled: boolean) => {
     return useQuery({
-        queryKey: ['users', userID, 'holidays', { queryParams }],
-        queryFn: () => getHolidays(userID!, queryParams),
+        queryKey: ['employees', employeeID, 'holidays', { queryParams }],
+        queryFn: () => getHolidaysByEmployee(employeeID!, queryParams),
         staleTime: 3000,
         enabled,
     })
@@ -29,10 +29,10 @@ export const useHolidays = (userID: string, queryParams: QueryParams, enabled: b
 
 export const useCreateHoliday = (actions?: () => void) => {
     const queryCLient = useQueryClient();
-    const handleDownload = async (userID: string, holidayID: number) => {
+    const handleDownload = async (employeeID: string, holidayID: number) => {
         try {
-            const { blob, headers } = await downloadFormatHoliday(userID, holidayID);
-            downloadFile({ blob, headers})
+            const { blob, headers } = await downloadProofHoliday({employeeID, holidayID});
+            downloadFile({ blob, headers })
         } catch (error) {
             notification.error({
                 message: 'Error al descargar',
@@ -40,13 +40,13 @@ export const useCreateHoliday = (actions?: () => void) => {
             });
         }
     }
-   
+
     return useMutation({
         mutationFn: createHoliday,
-        onSuccess(data, { userID }) {
-            notification.success({ message: data.message, actions: <Button type="primary" onClick={() => (handleDownload(userID, data.id))}>Descargar formato</Button> });
-            queryCLient.invalidateQueries({ queryKey: ['users', userID, 'infinite-holidays'] });
-            queryCLient.invalidateQueries({ queryKey: ['users', userID, 'holidays'] });
+        onSuccess(data, { employeeID }) {
+            notification.success({ message: data.message, actions: <Button type="primary" onClick={() => (handleDownload(employeeID, data.id))}>Descargar formato</Button> });
+            queryCLient.invalidateQueries({ queryKey: ['employees', employeeID, 'infinite-holidays'] });
+            queryCLient.invalidateQueries({ queryKey: ['employees', employeeID, 'holidays'] });
             actions && actions();
         },
     })
@@ -56,36 +56,84 @@ export const useCancelHoliday = () => {
     const queryCLient = useQueryClient();
     return useMutation({
         mutationFn: cancelHoliday,
-        onSuccess(data, {userID}) {
-            notification.success({message: data});
-            queryCLient.invalidateQueries({ queryKey: ['users', userID, 'infinite-holidays'] });
-            queryCLient.invalidateQueries({ queryKey: ['users', userID, 'holidays'] });
+        onSuccess(data, { employeeID }) {
+            notification.success({ message: data });
+            queryCLient.invalidateQueries({ queryKey: ['employees', employeeID, 'infinite-holidays'] });
+            queryCLient.invalidateQueries({ queryKey: ['employees', employeeID, 'holidays'] });
         },
     })
 }
 
+export const useUploadProof = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: uploadProof,
+        onSuccess(data, { employeeID }) {
+            notification.success({
+                message: data.message
+            });
+            queryClient.invalidateQueries({ queryKey: ['employees', employeeID, 'infinite-holidays'] });
+            queryClient.invalidateQueries({ queryKey: ['employees', employeeID, 'holidays'] });
+        },
+        onError(error) {
+            notification.error({
+                message: 'Error al subir el archivo',
+                description: error.message || 'No se pudo subir el archivo'
+            })
+        },
+    })
+}
+
+// * Configuración de vacaciones 
 export const useConfigHolidays = () => {
     return useQuery({
-        queryKey: ['config-holiday'],
+        queryKey: ['config-holidays'],
         queryFn: getConfigHolidays
     })
 }
 
-export const useCreateConfig = () => {
+export const useCreateConfig = (actions?: () => void) => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: createConfig
+        mutationFn: createConfig,
+        onSuccess() {
+            notification.success({ message: 'Se creo la configuración' });
+            queryClient.invalidateQueries({ queryKey: ['config-holidays'] })
+            actions && actions();
+        },
+        onError(error) {
+            notification.error({ message: error.message });
+        },
     })
 }
 
-export const useUpdateConfig = () => {
+export const useUpdateConfig = (actions?: () => void) => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: updateConfig
+        mutationFn: updateConfig,
+        onSuccess() {
+            notification.success({ message: 'Se actualizo la configuración' });
+            queryClient.invalidateQueries({ queryKey: ['config-holidays'] })
+            actions && actions();
+        },
+        onError(error) {
+            notification.error({ message: error.message });
+        },
     })
 }
 
-export const useDeleteConfig = () => {
+export const useDeleteConfig = (actions?: () => void) => {
+    const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: deleteConfig
+        mutationFn: deleteConfig,
+        onSuccess() {
+            notification.success({ message: 'Se elimino la configuración' });
+            queryClient.invalidateQueries({ queryKey: ['config-holidays'] })
+            actions && actions();
+        },
+        onError(error) {
+            notification.error({ message: error.message });
+        },
     })
 }
 

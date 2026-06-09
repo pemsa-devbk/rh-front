@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { create, createSignature, remove, getOne, getAll, getSignature, update, updateSignature } from "../api/enterprise";
+import { create, remove, getOne, getAll, getSignature, update, updateSignature } from "../api/enterprise";
 import { QueryParams } from "../api/interfaces/queryParams";
 import { notification } from "antd";
 
@@ -32,6 +32,9 @@ export const useCreateEnterpise = ( actions?: () => void ) => {
             queryClient.invalidateQueries({ queryKey: ['enterprises'] });
             queryClient.invalidateQueries({ queryKey: ['infinite-enterprises'] });
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -48,6 +51,9 @@ export const useUpdateEnterpise = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['infinite-enterprises'] });
             actions && actions();
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -63,6 +69,9 @@ export const useDeleteEnterpise = () => {
             queryClient.removeQueries({queryKey: ['enterprises', enterprise_id]})
             queryClient.invalidateQueries({ queryKey: ['infinite-enterprises'] });
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -77,16 +86,11 @@ export const useInfiniteEnterprises = (enabled: boolean, search: string) => {
             const totalLoaded = allPages.reduce((acc, page) => acc + page.data.length, 0);
             return totalLoaded < lastPage.total ? allPages.length : undefined;
         },
+        
     })
 }
 
 // * Signature
-export const useCreateSignature = () => {
-    return useMutation({
-        mutationFn: createSignature
-    })
-}
-
 export const useUpdateSignature = () => {
     return useMutation({
         mutationFn: updateSignature
@@ -95,7 +99,7 @@ export const useUpdateSignature = () => {
 
 export const useSignature = (id?: string) => {
     return useQuery({
-        queryKey: ['signature', id],
+        queryKey: ['enterprises', id, 'signature'],
         queryFn: () => getSignature(id!),
         enabled: !!id,
         staleTime: 300

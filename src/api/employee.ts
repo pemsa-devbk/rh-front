@@ -1,10 +1,15 @@
-import { CreateEmployeeDTO, Employee } from "./interfaces/employee";
+import { CreateEmployeeDTO, Employee, UpdateEmployeeDTO } from "./interfaces/employee";
 import { QueryParams } from "./interfaces/queryParams";
 import { ResponsePagination } from "./interfaces/response";
 import { instance } from "./rh";
 
 export const getEmployees = async (queryParams: QueryParams) => {
     const { data } = await instance.get<ResponsePagination<Employee>>('employees', { params: queryParams });
+    return data;
+}
+
+export const getEmployee = async(employeeID: string) => {
+    const {data} = await instance.get<Employee>(`employees/${employeeID}`);
     return data;
 }
 
@@ -41,5 +46,10 @@ export const getEmployeesByCourse = async (courseID: number, queryParams: QueryP
 
 export const createEmployee = async (formEmployee: CreateEmployeeDTO) => {
     const {data} = await instance.post<Employee>(`employees`, formEmployee);
+    return data;
+}
+
+export const updateEmployee = async ({form, employeeID}: {form: UpdateEmployeeDTO, employeeID: string}) => {
+    const {data} = await instance.patch<Employee>(`employees/${employeeID}`, form);
     return data;
 }

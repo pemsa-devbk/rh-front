@@ -4,18 +4,19 @@ import { Button, Col, DatePicker, Flex, notification, Row, Skeleton, Space, Typo
 import { PlusOutlined } from '@ant-design/icons';
 import { TableCourses } from './componets/TableCourses';
 import { GetColumns } from './get_columns';
-import { useCourses, useRemoveUsersToCourse, useUploadProof } from '../../../hooks/course';
+import { useCourses, useRemoveEmployeesToCourse, useUploadProof } from '../../../hooks/course';
 import { Course } from '../../../api/interfaces/course';
 import { DrawerCreate } from './componets/DrawerCreate';
 import { InputSearch } from '../../../components/InputSearch';
 import { DrawerEdit } from './componets/DrawerEdit';
 import { DrawerAdd } from './componets/DrawerAdd';
 import { DrawerList } from '../../../components/DrawerList';
-import { useInfiniteUsersByCourse } from '../../../hooks/user';
 import { User } from '../../../api/interfaces/user';
 import { OptionsForUser } from './componets/OptionsForUser';
 import { downloadProof } from '../../../api/course';
 import { downloadFile } from '../../../helpers/download';
+import { useInfiniteEmployeesByCourse } from '../../../hooks/employee';
+import { Employee } from '../../../api/interfaces/employee';
 
 export const Courses = () => {
 
@@ -33,8 +34,8 @@ export const Courses = () => {
     const [selectedCourse, setSelectedCourse] = useState<Course>();
 
     const { data, isPending, refetch, isFetching } = useCourses(params);
-    const { data: dataUsers, fetchNextPage, hasNextPage, isLoading: isFetchingUsers } = useInfiniteUsersByCourse(selectedCourse?.course_id || NaN, (openModal.view_users && !!selectedCourse), '');
-    const { mutate: removeUser, isPending: isPendingRemoveUser, variables } = useRemoveUsersToCourse();
+    const { data: dataUsers, fetchNextPage, hasNextPage, isLoading: isFetchingUsers } = useInfiniteEmployeesByCourse(selectedCourse?.course_id || NaN, (openModal.view_users && !!selectedCourse), '');
+    const { mutate: removeUser, isPending: isPendingRemoveUser, variables } = useRemoveEmployeesToCourse();
     const { mutate: uploadProof, isPending: isPendingUpload, variables: variablesUpload } = useUploadProof();
 
     const setStateModal = (modal: 'create' | 'edit' | 'view_users' | 'add_users') => {
@@ -48,7 +49,7 @@ export const Courses = () => {
 
     const handleDownloadProof = async ({ course_id, name: courseName }: Course, { user_id, name }: User) => {
         try {
-            const { blob, headers } = await downloadProof({ courseID: course_id, userID: user_id });
+            const { blob, headers } = await downloadProof({ courseID: course_id, employeeID: user_id });
             downloadFile({blob, headers, customFileName:`${name}-${courseName}`})
         } catch (error) {
             notification.error({
@@ -87,7 +88,7 @@ export const Courses = () => {
             </Row>
 
             <DrawerCreate onClose={() => setStateModal('create')} open={openModal.create} />
-            <DrawerList<User>
+            <DrawerList<Employee>
                 loading={isFetchingUsers}
                 title='Empledos registrados'
                 hasMore={hasNextPage}
@@ -97,7 +98,7 @@ export const Courses = () => {
                 onClose={() => setStateModal('view_users')}
                 open={openModal.view_users}
                 titleKey='name'
-                descriptionKey={(user) => user.email || 'Sin correo'}
+                descriptionKey={(user) => user.name || 'Sin correo'}
                 dataSource={dataUsers}
                 extraButtons={
                     <Space>
@@ -111,12 +112,12 @@ export const Courses = () => {
                                 const { file } = options;
                                 const formData = new FormData();
                                 formData.append('proof', file);
-                                uploadProof({ courseID: selectedCourse.course_id, userID: user.user_id, formData })
+                                uploadProof({ courseID: selectedCourse.course_id, employeeID: user.user_id, formData })
                             }}
-                            isUpload={isPendingUpload && variablesUpload.userID === user.user_id}
+                            isUpload={isPendingUpload && variablesUpload.employeeID === user.user_id}
                             user={user}
-                            isDeleting={isPendingRemoveUser && variables.userID === user.user_id}
-                            onDelete={() => removeUser({ courseID: selectedCourse.course_id, userID: user.user_id })}
+                            isDeleting={isPendingRemoveUser && variables.employeeID === user.user_id}
+                            onDelete={() => removeUser({ courseID: selectedCourse.course_id, employeeID: user.user_id })}
                             handleDownload={() => handleDownloadProof(selectedCourse, user)}
                         />
                     ) : null}

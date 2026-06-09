@@ -23,6 +23,9 @@ export const useCreateArea = (actions?: Actions) => {
             queryClient.invalidateQueries({ queryKey: ['departments', department_id, 'infinite-areas'] });
             actions && actions();
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -39,6 +42,9 @@ export const useUpdateArea = (actions?: Actions) => {
             queryClient.invalidateQueries({ queryKey: ['departments', department_id, 'areas', area_id] });
             queryClient.invalidateQueries({ queryKey: ['departments', department_id, 'infinite-areas'] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -60,6 +66,9 @@ export const useDeleteArea = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['departments', department_id, 'infinite-areas'] });
             queryClient.removeQueries({ queryKey: ['departments', department_id, 'areas', area_id] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }

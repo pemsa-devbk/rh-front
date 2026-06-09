@@ -1,21 +1,21 @@
-import { useParams } from 'react-router-dom';
-import { useUser } from '../../../hooks/user';
-import { notification, Tabs } from 'antd';
-import { TabBinnacle } from './components/TabBinnacle';
-import { TabGeneral } from './components/TabGeneral';
-import { HolidayUser } from '../holidays/HolidayUser';
-import { TabFiles } from './components/TabFiles';
+// import { useParams } from 'react-router-dom';
+// import { useUser } from '../../../hooks/user';
+// import { notification, Tabs } from 'antd';
+// import { TabBinnacle } from './components/TabBinnacle';
+// import { TabGeneral } from './components/TabGeneral';
+// import { HolidayUser } from '../holidays/HolidayUser';
+// import { TabFiles } from './components/TabFiles';
 
 
 export default function ViewUser() {
 
-    const { id = '' } = useParams();
-    const [api, contextHolder] = notification.useNotification();
-    const { data, refetch } = useUser(id!);
+    // const { id = '' } = useParams();
+    // const [api, contextHolder] = notification.useNotification();
+    // const { data, refetch } = useUser(id!);
 
     return (
         <>
-            {contextHolder}
+            {/* {contextHolder}
 
             <Tabs
                 defaultActiveKey='1'
@@ -41,7 +41,7 @@ export default function ViewUser() {
                         children: <TabFiles id={data?.user_id} api={api} />
                     }
                 ]}
-            />
+            /> */}
 
         </>
     )

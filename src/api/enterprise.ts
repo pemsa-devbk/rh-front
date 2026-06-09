@@ -1,4 +1,4 @@
-import { CreateEnterpriseDTO, Enterprise, FormGetSignature, FormSignature, Signature, UpdateEnterpriseDTO } from "./interfaces/enterprise";
+import { CreateEnterpriseDTO, Enterprise, FormEnterprise, FormGetSignature, FormSignature, Signature, UpdateEnterpriseDTO } from "./interfaces/enterprise";
 import { QueryParams } from "./interfaces/queryParams";
 import { ResponsePagination } from "./interfaces/response";
 import { instance } from "./rh";
@@ -29,26 +29,22 @@ export const remove = async (enterpriseID: string) => {
 }
 
 // * Signature
-export const priviewSignature = async ({ id, body }: { id: string, body: FormSignature }) => {
-    const { data } = await instance.post(`/enterprise/${id}/preview_signature`, body, { responseType: 'blob' });
-    return data;
-}
-
-export const createSignature = async ({ id, body }: { id: string, body: FormSignature }) => {
-    const { data } = await instance.post(`/enterprise/${id}/create_signature`, body);
+export const priviewSignature = async ( body: FormEnterprise ) => {
+    const {name, address, ...signature} = body;
+    const { data } = await instance.post(`/enterprises/preview_signature`, {name, address, signature}, { responseType: 'blob' });
     return data;
 }
 
 export const updateSignature = async ({ id, body }: { id: string, body: FormSignature }) => {
-    const { data } = await instance.patch(`/signature/${id}`, body);
+    const { data } = await instance.patch(`enterprises/${id}/signature`, body);
     return data;
 }
 
-export const getSignature = async (id: string) => {
-    const { data } = await instance.get<Signature>(`signature/${id}`);
+export const getSignature = async (enterprise_id: string) => {
+    const { data } = await instance.get<Signature>(`/enterprises/${enterprise_id}/signature`);
     return data;
 }
 export const downloadSignature = async (id: string, form: FormGetSignature) => {
-    const { data } = await instance.post(`enterprise/${id}/download_signature`, form, { responseType: 'blob' });
+    const { data } = await instance.post(`enterprises/${id}/download_signature`, form, { responseType: 'blob' });
     return data;
 }

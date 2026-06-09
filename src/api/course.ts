@@ -1,4 +1,4 @@
-import { Course, FormAssignUsers, FormCourse, FormUpdateCourse } from "./interfaces/course";
+import { Course, FormAssignEmployees, FormCourse, FormUpdateCourse } from "./interfaces/course";
 import { QueryParams } from "./interfaces/queryParams";
 import { ResponseMessage, ResponsePagination } from "./interfaces/response";
 import { instance } from "./rh";
@@ -24,28 +24,28 @@ export const deleteCourse = async(courseID: number) => {
     return data;
 }
 
-export const getCoursesFromUser = async(userID: string, pagination: QueryParams) => {
-    const {data} = await instance.get<ResponsePagination<Course>>(`users/${userID}/courses`, {params: pagination});
+export const getCoursesByEmployee = async(employeeID: string, pagination: QueryParams) => {
+    const {data} = await instance.get<ResponsePagination<Course>>(`employees/${employeeID}/courses`, {params: pagination});
+    return data;
+}
+// ! revisar el form
+export const assignEmployeesToCoruse = async({courseID, formAssignEmployees}: {courseID: number, formAssignEmployees: FormAssignEmployees}) => {
+    const {data} = await instance.post<ResponseMessage>(`courses/${courseID}/employees`, formAssignEmployees );
     return data;
 }
 
-export const assignUsersToCoruse = async({courseID, formUsersAssign}: {courseID: number, formUsersAssign: FormAssignUsers}) => {
-    const {data} = await instance.post<ResponseMessage>(`courses/${courseID}/users`, formUsersAssign );
+export const removeEmployeeToCourse = async ({courseID, employeeID}: {courseID: number, employeeID: string}) => {   
+    const {data} = await instance.delete<ResponseMessage>(`courses/${courseID}/employees/${employeeID}`);
     return data;
 }
 
-export const removeUserToCourse = async ({courseID, userID}: {courseID: number, userID: string}) => {   
-    const {data} = await instance.delete<ResponseMessage>(`courses/${courseID}/users/${userID}`);
+export const uploadProof = async({courseID, formData,employeeID}: {courseID: number, employeeID: string, formData: FormData}) => {
+    const {data} = await instance.post<ResponseMessage>(`/courses/${courseID}/employees/${employeeID}/proof`, formData);
     return data;
 }
 
-export const uploadProof = async({courseID, formData,userID}: {courseID: number, userID: string, formData: FormData}) => {
-    const {data} = await instance.post<ResponseMessage>(`/courses/${courseID}/users/${userID}/proof`, formData);
-    return data;
-}
-
-export const downloadProof = async({courseID, userID}: {courseID: number, userID: string}) => {
-    const response = await instance.get<Blob>(`/courses/${courseID}/users/${userID}/proof`, {
+export const downloadProof = async({courseID, employeeID}: {courseID: number, employeeID: string}) => {
+    const response = await instance.get<Blob>(`/courses/${courseID}/employees/${employeeID}/proof`, {
         responseType: 'blob',
         headers: {
             'Accept': 'application/pdf, image/*, application/octet-stream'

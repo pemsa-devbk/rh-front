@@ -1,19 +1,19 @@
 
 import { forwardRef, useEffect, useImperativeHandle } from 'react';
-import { AddressForm } from '../../../../api/interfaces/address';
-import { Col, Form, Input, Row, Select, Typography } from 'antd';
+import { Col, Form, Input, Row, Select } from 'antd';
 import { useColoniesByPostal } from '../../../../hooks/mx';
-import { FormStepRef } from '../CreateEmployee';
+import { StepTwoForm } from '../../../../api/interfaces/employee';
+import { FormStepRef } from '../../employees/CreateEmployee';
 
 
 interface Props {
-    initialValues?: Partial<AddressForm>;
-    onNext: (values: AddressForm) => void;
+    initialValues?: Partial<StepTwoForm>;
+    onNext: (values: StepTwoForm) => void;
     onBack: () => void;
 }
 
-export const FormAddress = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
-    const [form] = Form.useForm<AddressForm>();
+export const StepAddress = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
+    const [form] = Form.useForm<StepTwoForm>();
     const postalValue = Form.useWatch('postal_code', form);
     const { data, isFetching, isSuccess } = useColoniesByPostal(postalValue || '');
 

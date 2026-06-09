@@ -27,9 +27,9 @@ export const GetColumns = ({setSelectedConfig, setOpen}: Props): TableProps<Spec
         },
         {
             title: 'Usuario',
-            dataIndex: 'user',
+            dataIndex: 'user_name',
             render(value) {
-                return <>{ value ? value.name : 'No establecido'}</>
+                return <>{ value ? value : 'No establecido'}</>
             }
         },
         {

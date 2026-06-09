@@ -1,24 +1,24 @@
 import { useState } from 'react'
 import { useSpecialUsers, useUpdateConfig } from '../../../hooks/general'
-import { Button, Drawer, Form, Layout, Select, Space, Table } from 'antd';
+import { Button, Drawer, Form, Layout, Space, Table } from 'antd';
 import { GetColumns } from './utils/get_colums_special';
 import { FormConfig, SpecialUser } from '../../../api/general';
-import { useInfiniteUsers } from '../../../hooks/user';
+import { SelectWithSearch } from '../../../components/SelectWithSearch';
+import { Employee } from '../../../api/interfaces/employee';
+import { useInfiniteEmployees } from '../../../hooks/employee';
 
 export const SpecialUsers = () => {
-    const { data, refetch } = useSpecialUsers();
+    const { data } = useSpecialUsers();
     const [open, setOpen] = useState(false);
     const [selectedConfig, setSelectedConfig] = useState<SpecialUser>();
-    const { data: dataUsers, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteUsers(open);
-    const { mutate } = useUpdateConfig();
-    const columns = GetColumns({ setOpen, setSelectedConfig });
     const [form] = Form.useForm<FormConfig>();
+    const { mutate } = useUpdateConfig( () => {
+        form.resetFields();
+        setOpen(false);
+    });
+    const columns = GetColumns({ setOpen, setSelectedConfig });
     const handleFormSubmit = (values: FormConfig) => {
-        mutate({ key: selectedConfig!.key, user_id: values.user_id }, {
-            onSettled(data, error, variables, context) {
-                refetch();
-            },
-        })
+        mutate({ key: selectedConfig!.key, user_id: values.user_id })
     }
     return (
         <Layout.Content>
@@ -40,32 +40,15 @@ export const SpecialUsers = () => {
                     form={form}
                     onFinish={handleFormSubmit}
                 >
-                    <Form.Item
-                        name="user_id"
-                        label="Usuario"
-                    >
-                        <Select
-                            placeholder="Seleccione el usuario"
-                            showSearch
-                            onPopupScroll={(e) => {
-                                const target = e.target as HTMLElement;
-                                if (target.scrollTop + target.offsetHeight >= target.scrollHeight - 10 && hasNextPage && !isFetchingNextPage) {
-                                    fetchNextPage();
-                                }
-                            }}
-                            filterOption={false}
-                            loading={isFetchingNextPage}
-                            options={
-                                dataUsers?.pages.flatMap((page) =>
-                                    page.data.map((user) => ({
-                                        label: user.name,
-                                        value: user.user_id,
-                                    }))
-                                )
-                            }
-                        >
-                        </Select>
-                    </Form.Item>
+                    <SelectWithSearch<Employee> 
+                        label='Usuario'
+                        labelKey='name'
+                        valueKey='user_id'
+                        name='user_id'
+                        placeHolder='Seleccione un usuario'
+                        useQuery={(search, enabled) => useInfiniteEmployees(enabled, search)}
+                        required
+                    />
                 </Form>
             </Drawer>
             <Table

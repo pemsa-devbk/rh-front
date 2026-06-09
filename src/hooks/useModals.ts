@@ -34,8 +34,11 @@ export const useModals = <T extends ModalKeys>(modalKeys: T[]) => {
 
     // Función para resetear al estado inicial
     const reset = useCallback(() => {
-        setModals(initialState);
-    }, [initialState]);
+        setModals(modalKeys.reduce((acc, key) => {
+            acc[key] = false;
+            return acc;
+        }, {} as ModalState<T>));
+    }, []); // sin dependencias
 
     return {
         // Estado de los modales

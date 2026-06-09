@@ -1,43 +1,43 @@
-import { Avatar, Button, Col, Descriptions, Divider, Dropdown, Flex, Image, Row, Typography } from 'antd'
-import { base_url } from '../../../../api/rh'
-import { EditOutlined, HighlightOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
-import { Gender, User } from '../../../../api/interfaces/user'
-import { DrawerCreate } from '../../contacts/components/DrawerCreate';
-import { useState } from 'react';
-import { ModalEdit } from './ModalEdit';
-import { useContact } from '../../../../hooks/contact';
-import { DrawerEdit } from '../../contacts/components/DrawerEdit';
-import { Contact } from '../../../../api/interfaces/contact';
-import ImageCropper from '../../../../components/ImageCropper';
+// import { Avatar, Button, Col, Descriptions, Divider, Dropdown, Flex, Image, Row, Typography } from 'antd'
+// import { base_url } from '../../../../api/rh'
+// import { EditOutlined, HighlightOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
+// import { Gender, User } from '../../../../api/interfaces/user'
+// import { DrawerCreate } from '../../contacts/components/DrawerCreate';
+// import { useState } from 'react';
+// import { ModalEdit } from './ModalEdit';
+// import { useContact } from '../../../../hooks/contact';
+// import { DrawerEdit } from '../../contacts/components/DrawerEdit';
+// import { Contact } from '../../../../api/interfaces/contact';
+// import ImageCropper from '../../../../components/ImageCropper';
 
 interface Props {
-    user?: User;
+    user?: any;
     refetch: () => void;
 }
 export const TabGeneral = ({ user, refetch }: Props) => {
-    const { refetch: refetchContact } = useContact(user?.user_id || '');
-    const [openModal, setOpenModal] = useState({
-        createContact: false,
-        editContact: false,
-        edit: false,
-        viewSignature: false,
-    });
-    const [selectedContact, setSelectedContact] = useState<Contact>();
-    const [updatePhoto, setUpdatePhoto] = useState({
-        foto: '',
-        firma: ''
-    });
-    const setStateOpenModal = (type: 'createContact' | 'editContact' | 'edit' | 'viewSignature') => {
-        setOpenModal((old) => ({ ...old, [type]: !old[type] }));
-    }
-    const updateContact = (contact: Contact) => {
-        setSelectedContact(contact);
-        setStateOpenModal('editContact');
-    }
+    // const { refetch: refetchContact } = useContact(user?.user_id || '');
+    // const [openModal, setOpenModal] = useState({
+    //     createContact: false,
+    //     editContact: false,
+    //     edit: false,
+    //     viewSignature: false,
+    // });
+    // const [selectedContact, setSelectedContact] = useState<Contact>();
+    // const [updatePhoto, setUpdatePhoto] = useState({
+    //     foto: '',
+    //     firma: ''
+    // });
+    // const setStateOpenModal = (type: 'createContact' | 'editContact' | 'edit' | 'viewSignature') => {
+    //     setOpenModal((old) => ({ ...old, [type]: !old[type] }));
+    // }
+    // const updateContact = (contact: Contact) => {
+    //     setSelectedContact(contact);
+    //     setStateOpenModal('editContact');
+    // }
 
     return (
         <>
-            <DrawerCreate onClose={() => setStateOpenModal('createContact')} open={openModal.createContact} id={user?.user_id} />
+            {/* <DrawerCreate onClose={() => setStateOpenModal('createContact')} open={openModal.createContact} id={user?.user_id} />
             <DrawerEdit onClose={() => setStateOpenModal('editContact')} open={openModal.editContact}  contact={selectedContact} />
             <ModalEdit onClose={() => setStateOpenModal('edit')} open={openModal.edit} refetch={refetch} user={user} />
             <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '10px' }}>
@@ -132,9 +132,9 @@ export const TabGeneral = ({ user, refetch }: Props) => {
                         <Divider style={{ margin: '15px 0' }} />
 
                         {/* <ListContacts user_id={user?.user_id} openEditModal={updateContact} /> */}
-                    </div>
+                    {/* </div>
                 </Col>
-            </Row>
+            </Row> */} 
 
         </>
     )

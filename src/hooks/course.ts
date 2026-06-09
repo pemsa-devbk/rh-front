@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { QueryParams } from "../api/interfaces/queryParams"
-import { assignUsersToCoruse, createCourse, deleteCourse, getCourses, getCoursesFromUser, removeUserToCourse, updateCourse, uploadProof } from "../api/course"
+import { createCourse, deleteCourse, getCourses, updateCourse, uploadProof, getCoursesByEmployee, assignEmployeesToCoruse, removeEmployeeToCourse } from "../api/course"
 import { notification } from "antd"
 
 
@@ -12,14 +12,28 @@ export const useCourses = (queryParams: QueryParams) => {
     })
 }
 
-export const useCoursesByUser = (userID: string, queryParams: QueryParams, enabled = true) => {
+export const useCoursesByEmployee = (employeeID: string, queryParams: QueryParams, enabled = true) => {
     return useQuery({
-        queryKey: ['users', userID, 'courses', { queryParams }],
-        queryFn: () => getCoursesFromUser(userID, queryParams),
+        queryKey: ['employees', employeeID, 'courses', { queryParams }],
+        queryFn: () => getCoursesByEmployee(employeeID, queryParams),
         enabled,
         staleTime: 1000 * 60
     })
 }
+
+export const useInfiniteCoursesByEmployee = (employeeID: string, enabled: boolean, search: string) => {
+    return useInfiniteQuery({
+        queryKey: ['employees',employeeID,'infinite-courses', { search }],
+        queryFn: ({ pageParam = 0 }) => getCoursesByEmployee(employeeID, { take: 10, skip: pageParam * 10, search }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, allPages) => {
+            const totalLoaded = allPages.reduce((acc, page) => acc + page.data.length, 0);
+            return totalLoaded < lastPage.total ? allPages.length : undefined;
+        },
+        enabled
+    });
+}
+
 
 export const useCreateCourse = () => {
     const queryClient = useQueryClient();
@@ -30,6 +44,9 @@ export const useCreateCourse = () => {
                 message: `El curso ${name} fue creado`
             });
             queryClient.invalidateQueries({ queryKey: ['courses'] });
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -44,6 +61,9 @@ export const useUpdateCourse = () => {
             });
             queryClient.invalidateQueries({ queryKey: ['courses'] });
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -55,36 +75,45 @@ export const useDeleteCourse = () => {
             notification.success({
                 message: `El curso ${name} fue eliminado`
             });
-            queryClient.removeQueries({ queryKey: ['courses', courseID, 'infinite-users'] })
+            queryClient.removeQueries({ queryKey: ['courses', courseID, 'infinite-employees'] })
             queryClient.invalidateQueries({ queryKey: ['courses'] });
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
 
-export const useAssignUsersToCourse = () => {
+export const useAssignEmployeesToCourse = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: assignUsersToCoruse,
+        mutationFn: assignEmployeesToCoruse,
         onSuccess(data, { courseID }) {
             notification.success({
                 message: data.message
             });
             queryClient.invalidateQueries({ queryKey: ['courses'] });
-            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-users'] });
+            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-employees'] });
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
 
-export const useRemoveUsersToCourse = () => {
+export const useRemoveEmployeesToCourse = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: removeUserToCourse,
+        mutationFn: removeEmployeeToCourse,
         onSuccess(data, { courseID }) {
             notification.success({
                 message: data.message
             });
-            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-users',] });
+            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-employees',] });
             queryClient.invalidateQueries({ queryKey: ['courses'] });
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -97,7 +126,7 @@ export const useUploadProof = () => {
              notification.success({
                 message: data.message
             });
-            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-users',] });
+            queryClient.invalidateQueries({ queryKey: ['courses', courseID, 'infinite-employees',] });
             queryClient.invalidateQueries({ queryKey: ['courses'] });
         },
         onError(error) {

@@ -14,7 +14,7 @@ export interface Contact {
     contact: string;
     type: TypeContact;
     notes: string;
-    user_id: string;
+    employee_id: string;
 }
 
 export enum TypeContact {

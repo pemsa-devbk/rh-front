@@ -19,6 +19,8 @@ import { Employees } from "../pages/private/employees/Employees";
 import { CreateEmployee } from "../pages/private/employees/CreateEmployee";
 import { Departments } from "../pages/private/departments/Departments";
 import { Department } from "../pages/private/departments/Department";
+import { CreateEnterprise } from "../pages/private/enterprises/CreateEnterprise";
+import { Employee } from "../pages/private/employees/Employee";
 
 
 export const router = createBrowserRouter([
@@ -51,12 +53,20 @@ export const router = createBrowserRouter([
                         element: <Employees />
                     },
                     {
+                        path: 'employees/:id',
+                        element: <Employee />
+                    },
+                    {
                         path: 'employees/create',
                         element: <CreateEmployee />
                     },
                     {
                         path: 'enterprises', 
                         element: <Enterprises />
+                    },
+                    {
+                        path: 'enterprises/create', 
+                        element: <CreateEnterprise />
                     },
                     {
                         path: 'enterprises/:id', 

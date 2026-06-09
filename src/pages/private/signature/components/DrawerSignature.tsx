@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Input, Space } from 'antd'
+import { Button, Drawer, Form, Input, message, Space } from 'antd'
 import { Enterprise, FormGetSignature } from '../../../../api/interfaces/enterprise';
 import { downloadSignature } from '../../../../api/enterprise';
 
@@ -21,6 +21,9 @@ export const DrawerSignature = ({ onClose, open, enterprise }: Props) => {
                 document.body.appendChild(link);
                 link.click()
             })
+            .catch(err => {
+                message.error(`Error al descargar ${err.message}`)
+            })
     }
     return (
         <Drawer
@@ -29,9 +32,9 @@ export const DrawerSignature = ({ onClose, open, enterprise }: Props) => {
             onClose={onClose}
             extra={
                 <Space>
-                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onClose}>Cancelar</Button>
                     <Button type="primary" onClick={() => form.submit()}>
-                        Guardar
+                        Descargar
                     </Button>
                 </Space>
             }

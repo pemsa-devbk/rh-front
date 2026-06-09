@@ -2,10 +2,10 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import { createContacts, deleteContact, getContacts, updateContact } from "../api/contact";
 import { notification } from 'antd';
 
-export const useContact = (userID: string, enabled: boolean) => {
+export const useContactsByEmployee = (employeeID: string, enabled: boolean = true) => {
     return useInfiniteQuery({
-        queryKey: ['user', userID,'contacts'],
-        queryFn: ({ pageParam }) => getContacts(userID, 10, pageParam * 10),
+        queryKey: ['employees', employeeID,'contacts'],
+        queryFn: ({ pageParam }) => getContacts(employeeID, 10, pageParam * 10),
         staleTime: 3000,
         initialPageParam: 0,
         enabled,
@@ -25,7 +25,7 @@ export const useCreateContacts = ( actions?: () => void ) => {
                 message: 'Los contactos han sido creados'
             });
             actions && actions();
-            queryClient.invalidateQueries({ queryKey: ['user', variables.userID, 'contacts'] });
+            queryClient.invalidateQueries({ queryKey: ['employees', variables.employeeID, 'contacts'] });
         },
     })
 }
@@ -38,7 +38,7 @@ export const useDeleteContact = () => {
             notification.success({
                 message: `El contacto ${contact} fue eliminado`
             });
-            queryClient.invalidateQueries({ queryKey: ['user', variables.userID, 'contacts'] });
+            queryClient.invalidateQueries({ queryKey: ['employees', variables.employeeID, 'contacts'] });
         },
     })
 }
@@ -52,7 +52,7 @@ export const useUpdateContact = ( actions?: () => void) => {
                 message: `El contacto se actualizo`
             });
             actions && actions();
-            queryClient.invalidateQueries({ queryKey: ['user', variables.userID, 'contacts'] });
+            queryClient.invalidateQueries({ queryKey: ['employees', variables.employeeID, 'contacts'] });
         },
     })
 }

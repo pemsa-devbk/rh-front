@@ -1,16 +1,16 @@
-import { Col, Form, Input, Row, Select, Typography } from 'antd'
-import { CreateMedicalDTO } from '../../../../api/interfaces/medical';
+import { Col, Form, Input, Row, Select } from 'antd'
 import { forwardRef, useImperativeHandle } from 'react';
-import { FormStepRef } from '../CreateEmployee';
+import { StepThree } from '../../../../api/interfaces/employee';
+import { FormStepRef } from '../../employees/CreateEmployee';
 
 interface Props {
-  initialValues?: Partial<CreateMedicalDTO>;
-  onNext: (values: CreateMedicalDTO) => void;
+  initialValues?: Partial<StepThree>;
+  onNext: (values: StepThree) => void;
   onBack: () => void;
 }
 
-export const FormMedical = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
-  const [form] = Form.useForm();
+export const StepMedical = forwardRef<FormStepRef, Props>(({ onBack, onNext, initialValues }, ref) => {
+  const [form] = Form.useForm<StepThree>();
 
   useImperativeHandle(ref, () => ({
     submit: () => form.submit(),

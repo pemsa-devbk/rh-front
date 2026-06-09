@@ -5,7 +5,8 @@ export interface Course{
     name: string;
     date_start: string;
     date_end: string;
-    total_users: number;
+    total_users?: number; // consulta de cursos
+    have_proof?: boolean; // Solo para empleados
 }
 
 export interface FormCourse{
@@ -21,6 +22,6 @@ export interface FormUpdateCourse{
     date_end?: string | Dayjs;
 }
 
-export interface FormAssignUsers {
+export interface FormAssignEmployees {
     users: Array<string>;
 }

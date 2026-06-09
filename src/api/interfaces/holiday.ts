@@ -4,7 +4,7 @@ export interface Holiday {
     status: StatusHoliday;
     have_format: boolean;
     created_at: string;
-    user_id: string;
+    employee_id: string;
     days: Array<{ holidays_days_id: number; date: string }>;
     others: {
         text: string;
@@ -36,7 +36,7 @@ export interface HolidayConfig {
     number_days: number;
 }
 
-export interface HolidayCOnfigForm {
+export interface HolidayConfigForm {
     min_year: number;
     max_year: number;
     number_days: number;

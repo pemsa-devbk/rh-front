@@ -21,6 +21,9 @@ export const useCreatePosition = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['areas', area_id, 'infinite-positions'] });
             actions && actions();
         },
+        onError(error) {
+            notification.error({message: error.message});
+        },
     })
 }
 
@@ -37,6 +40,9 @@ export const useUpdatePosition = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['areas', area_id, 'positions', position_id] });
             queryClient.invalidateQueries({ queryKey: ['areas', area_id, 'infinite-positions'] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }
@@ -58,6 +64,9 @@ export const useDeletePosition = (actions?: () => void) => {
             queryClient.invalidateQueries({ queryKey: ['areas', area_id, 'infinite-positions'] });
             queryClient.removeQueries({ queryKey: ['areas', area_id, 'positions', position_id] });
             actions && actions();
+        },
+        onError(error) {
+            notification.error({message: error.message});
         },
     })
 }

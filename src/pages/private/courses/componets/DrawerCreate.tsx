@@ -1,10 +1,9 @@
 import { Button, DatePicker, Drawer, Form, Input, Space } from 'antd';
-import  { useState } from 'react'
 import { useCreateCourse } from '../../../../hooks/course';
 import { FormCourse } from '../../../../api/interfaces/course';
-import { useInfiniteUsers } from '../../../../hooks/user';
 import { SelectWithSearch } from '../../../../components/SelectWithSearch';
 import { User } from '../../../../api/interfaces/user';
+import { useInfiniteEmployees } from '../../../../hooks/employee';
 
 interface Props {
     open: boolean;
@@ -14,8 +13,6 @@ interface Props {
 export const DrawerCreate = ({ onClose, open }: Props) => {
     const { mutate } = useCreateCourse();
     const [form] = Form.useForm<FormCourse>();
-    const [search, setSearch] = useState('');
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useInfiniteUsers(open, search);
 
     const handleFormSubmit = (values: FormCourse) => {
         const parseValues: FormCourse = {
@@ -82,14 +79,9 @@ export const DrawerCreate = ({ onClose, open }: Props) => {
                     name="users"
                     mode='multiple'
                     placeHolder="Seleccione los usuarios"
-                    fetchNextPage={fetchNextPage}
-                    loading={isFetchingNextPage || isFetching}
-                    hasNextPage={hasNextPage}
-                    isFetchingNextPage={isFetchingNextPage}
+                    useQuery={(search, enabled) => useInfiniteEmployees(enabled, search)}
                     labelKey='name'
                     valueKey='user_id'
-                    items={data}
-                    setSearch={setSearch}
                 />
 
             </Form>
