@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { QueryParams } from "../api/interfaces/queryParams"
-import { createEmployee, getEmployee, getEmployees, getEmployeesByArea, getEmployeesByCourse, getEmployeesByDepartment, getEmployeesByEnterprise, getEmployeesByOffice, getEmployeesByPosition, updateEmployee } from "../api/employee"
+import { createEmployee, getEmployee, getEmployees, getEmployeesByArea, getEmployeesByCourse, getEmployeesByDepartment, getEmployeesByEnterprise, getEmployeesByOffice, getEmployeesByPosition, getMeProfile, updateEmployee, updatePassword } from "../api/employee"
 import { notification } from "antd"
 
 export const useEmployees = (queryParams: QueryParams) => {
@@ -14,6 +14,14 @@ export const useEmployee = (employeeID: string) => {
     return useQuery({
         queryKey: ['employees', employeeID],
         queryFn: () => getEmployee(employeeID),
+        staleTime: (1000 * 60)
+    })
+}
+
+export const useMeProfile = () => {
+    return useQuery({
+        queryKey: ['profile','me'],
+        queryFn: () => getMeProfile(),
         staleTime: (1000 * 60)
     })
 }
@@ -82,7 +90,7 @@ export const useInfiniteEmployeesByCourse = (courseID: number, enabled: boolean,
 export const useInfiniteEmployees = (enabled: boolean, search: string) => {
     return useInfiniteQuery({
         queryKey: ['infinite-employees', { search }],
-        queryFn: ({ pageParam = 0 }) => getEmployees({ take: 10, skip: pageParam * 10, search }),
+        queryFn: ({ pageParam = 0 }) => getEmployees({ take: 10, skip: pageParam * 10, name: search, }),
         initialPageParam: 0,
         getNextPageParam: (lastPage, allPages) => {
             const totalLoaded = allPages.reduce((acc, page) => acc + page.data.length, 0);
@@ -100,6 +108,16 @@ export const useCreateEmployee = (actions?: () => void) => {
         onSuccess(_, {name}) {
             notification.success({ message: `Empleado ${name} creado con exito`});
             queryClient.invalidateQueries({queryKey: ['employees']});
+            actions && actions();
+        },
+    })
+}
+
+export const useUpdatePassword = (actions?: () => void) => {
+    return useMutation({
+        mutationFn: updatePassword,
+        onSuccess() {
+            notification.success({ message: `Se actualizo la contraseña`});
             actions && actions();
         },
     })

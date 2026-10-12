@@ -21,7 +21,7 @@ export const DrawerCreate = ({ onClose, open, enterprise }: Props) => {
     const [form] = Form.useForm<FormOffice>();
 
     const handleFormSubmit = (values: FormOffice) => {
-        const finalEnterpriseID = enterprise?.enterprise_id || values.enterprise?.value;
+        const finalEnterpriseID = enterprise?.enterprise_id || values.enterprise.value!;
         const { enterprise: _, ...officeData } = values;
         mutate({ enterpriseID: finalEnterpriseID, formOffice: officeData })
     }

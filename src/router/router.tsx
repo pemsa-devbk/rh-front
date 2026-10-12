@@ -1,9 +1,7 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Login } from "../pages/public/login/Login";
 import { LayoutDashboard } from "../pages/private/LayoutDashboard";
 import Home from "../pages/private/Home";
-import ViewUser from "../pages/private/users/ViewUser";
-import Root from "../pages/Root";
 import { Areas } from "../pages/private/areas/Areas";
 import { Offices } from "../pages/private/offices/Offices";
 import { SpecialUsers } from "../pages/private/config/SpecialUsers";
@@ -21,20 +19,27 @@ import { Departments } from "../pages/private/departments/Departments";
 import { Department } from "../pages/private/departments/Department";
 import { CreateEnterprise } from "../pages/private/enterprises/CreateEnterprise";
 import { Employee } from "../pages/private/employees/Employee";
+import { ChangePassword } from "../pages/private/employees/ChangePassword";
+import { Profile } from "../pages/private/employees/Profile";
+import { PublicRoute } from "./PublicRoute";
+import { PrivateRoute } from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Root />,
-        errorElement: <div>ErrorPage</div>,
+        element: <PublicRoute />,
         children: [
             {
-                path: "login",
+                path: 'login',
                 element: <Login />
-            },
+            }
+        ]
+    },
+    {
+        element: <PrivateRoute />,
+        children: [
             {
-                path: "dashboard",
+                path: '/dashboard',
                 element: <LayoutDashboard />,
                 children: [
                     {
@@ -49,8 +54,16 @@ export const router = createBrowserRouter([
                     //     element: <Users />,
                     // },
                     {
+                        path: 'change-password',
+                        element: <ChangePassword />
+                    },
+                    {
                         path: 'employees',
                         element: <Employees />
+                    },
+                    {
+                        path: 'me',
+                        element: <Profile />
                     },
                     {
                         path: 'employees/:id',
@@ -61,15 +74,15 @@ export const router = createBrowserRouter([
                         element: <CreateEmployee />
                     },
                     {
-                        path: 'enterprises', 
+                        path: 'enterprises',
                         element: <Enterprises />
                     },
                     {
-                        path: 'enterprises/create', 
+                        path: 'enterprises/create',
                         element: <CreateEnterprise />
                     },
                     {
-                        path: 'enterprises/:id', 
+                        path: 'enterprises/:id',
                         element: <Enterprise />
                     },
                     {
@@ -106,18 +119,6 @@ export const router = createBrowserRouter([
                     },
 
 
-
-                    {
-                        path: "mostarInfo/:id",
-                        element:
-                            <ViewUser />
-                    },
-                    
-                    
-                    
-                    
-                    
-                    
                     
                     {
                         path: 'courses',
@@ -133,8 +134,16 @@ export const router = createBrowserRouter([
                     }
                 ],
             }
-        ],
-
+        ]
+    },
+    {
+        path: '*',
+        element: (
+            <Navigate
+                to="/dashboard"
+                replace
+            />
+        ),
     }
 
 ])

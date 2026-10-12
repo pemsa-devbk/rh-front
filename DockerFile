@@ -1,19 +1,21 @@
-FROM node:alpine as builder 
-
+FROM ghcr.io/pnpm/pnpm:11.10.0 AS base
+RUN pnpm runtime set node 22 -g
+COPY . /app
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm
-RUN pnpm install
-COPY . .
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/var/cache/pnpm \
+    pnpm install --store-dir /var/cache/pnpm --prod --frozen-lockfile
+
+FROM base AS build
+ENV CI=true
+RUN --mount=type=cache,id=pnpm,target=/var/cache/pnpm \
+    pnpm install --store-dir /var/cache/pnpm --frozen-lockfile
 RUN pnpm run build
 
-### State 2
-FROM nginx:stable-alpine-slim
-
-ADD ./config/default.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=builder /app/dist /var/www/app/
+FROM nginx:stable-alpine-slim AS prod
+COPY --from=build /app/dist /var/www/app/
+COPY ./config/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

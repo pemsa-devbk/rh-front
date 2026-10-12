@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
 import getCroppedImg, { getMimeTypeFromDataUrl, PixelCrop } from '../helpers/getCroppedImg';
 import { fallbackImage2 } from '../helpers/fallback-img';
-import { instance } from '../api/rh';
 
 interface Props {
     aspect: number;
@@ -52,7 +51,7 @@ export const SignatureImageUpload = ({ aspect, showGrid, showReset, showRotation
         setRotation(0);
         setZoom(1);
     };
-    const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels);
     }, []);
 
@@ -107,7 +106,7 @@ export const SignatureImageUpload = ({ aspect, showGrid, showReset, showRotation
                 { type: imageInfo.mimeType }
             );
 
-            handleImage('FR_PR', finalImageFile);
+            handleImage('IMG_FIRMA', finalImageFile);
 
             // * Poner imagen
             const reader = new FileReader();

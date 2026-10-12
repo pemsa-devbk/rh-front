@@ -6,7 +6,12 @@ export interface User {
     name: string;
     update_at: string;
     deleted_at: string | null;
+    rol: {
+        name: string;
+    }
 }
+
+// * Validar
 
 export interface User2 {
     user_id: string;

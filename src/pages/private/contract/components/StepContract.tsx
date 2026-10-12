@@ -147,7 +147,7 @@ export const StepContract = forwardRef<FormStepRef, Props>(({ initialValues, onN
                         labelInValue
                         valueKey='user_id'
                         useQuery={(search, enabled) => useInfiniteEmployees(enabled, search)}
-                        required
+                        // required
                     />
                 </Col>
 

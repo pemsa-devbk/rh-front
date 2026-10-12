@@ -23,6 +23,8 @@ import { DrawerHandle as DrawerHandleLicense } from '../license/components/Drawe
 import { DrawerEdit as DrawerEditEnterpriseInfo } from '../enterprise-info/components/DrawerEdit';
 import { TabCourses } from '../courses/componets/TabCourses';
 import { TabHoliday } from '../holidays/components/TabHoliday';
+import { TabFiles } from '../files/componets/TabFiles';
+import { base_url } from '../../../api/rh';
 
 const MODAL_KEYS = ['handle-address', 'edit-employee-basic', 'edit-employee-position', 'handle-medical', 'handle-banking', 'handle-license', 'edit-enterprise-info', 'create-contact'];
 type ModalKeys = typeof MODAL_KEYS[number];
@@ -60,7 +62,6 @@ export const Employee = () => {
             <DrawerHandleBanking open={isOpen('handle-banking')} employee={data} onClose={closeModal} modalKey='handle-banking' />
             <DrawerHandleLicense open={isOpen('handle-license')} employee={data} onClose={closeModal} modalKey='handle-license' />
             <DrawerEditEnterpriseInfo open={isOpen('edit-enterprise-info')} employee={data} onClose={closeModal} modalKey='edit-enterprise-info' />
-            
 
             <Row gutter={[16, 16]}>
                 <Col span={14}>
@@ -70,7 +71,7 @@ export const Employee = () => {
                                 <Flex align='center' justify='space-between'>
                                     <div>
                                         <Flex gap={15} align='center'>
-                                            <Image src={fallbackImage} width={60} />
+                                            <Image src={`${base_url}employees/${id}/profile`} fallback={fallbackImage} width={60} />
                                             <div>
                                                 <Typography.Title level={5} style={{ margin: 0 }}>{data?.name}</Typography.Title>
                                                 <Typography.Text>Area: {data?.area_name} | </Typography.Text>
@@ -122,7 +123,7 @@ export const Employee = () => {
                                         { label: 'Contactos', key: '4', children: <TabContacts employeeID={id}  /> },
                                         { label: 'Cursos', key: '5', children: <TabCourses employeeID={id} /> },
                                         { label: 'Vacaciones', key: '6', children: <TabHoliday employeeID={id} /> },
-                                        { label: 'Archivos', key: '7' },
+                                        { label: 'Archivos', key: '7', children: <TabFiles employeeID={id} /> },
                                     ]}
                                 />
                             </div>

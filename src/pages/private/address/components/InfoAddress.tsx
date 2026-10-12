@@ -16,6 +16,7 @@ export const InfoAddress = ({ employeeID, openModal, modalKey }: Props) => {
     if (error)
         return <>
             <Typography.Title level={5}>Domicilio</Typography.Title>
+            <Button type='text' onClick={() => openModal(modalKey)} icon={<EditOutlined />} />
             <Alert type='error' message='Error al obtener información de dirección del empleado' />
         </>;
 

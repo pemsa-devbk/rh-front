@@ -14,13 +14,12 @@ export const downloadFile = ({
 
     if (customFileName) {
         // Si se proporciona nombre personalizado, agregar extensión
-        const contentType = headers['content-type'] || blob.type;
+        const contentType = (headers['content-type'] || blob.type) as string;
         const extension = getExtensionFromMimeType(contentType);
         fileName = `${customFileName}${extension}`;
     } else {
         // Si no hay nombre personalizado, usar el del servidor
         const contentDisposition = headers['Content-Disposition'] || headers['content-disposition'];
-        console.log(headers);
         
         if (contentDisposition) {
             const fileNameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);

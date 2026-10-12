@@ -1,9 +1,14 @@
-export interface QueryParams{
-    take: number;
-    skip: number;
-    search?: string;
+export interface PaginationQuery {
+  take?: number;
+  skip?: number;
+  orderBy?: string;
+  orderDirection?: 'ASC' | 'DESC';
 }
 
-export interface RelationParams extends QueryParams{
+export type QueryParams = PaginationQuery & {
+  [key: string]: string | number | boolean | undefined;
+};
+
+export interface RelationParams extends PaginationQuery{
     relations: boolean;
 }

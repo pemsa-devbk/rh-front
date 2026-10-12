@@ -1,7 +1,6 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import logo from '../../img/logo_pem.png';
 import Header from "../../components/Header"
-import { useAuthStore } from "../../store/auth/auth.store"
 import { Layout, Menu, MenuProps } from "antd"
 import Sider from "antd/es/layout/Sider"
 import { ApartmentOutlined, BookOutlined,  HomeOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons"
@@ -10,31 +9,20 @@ import { useState } from "react";
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const LayoutDashboard = () => {
-
-  const status = useAuthStore(state => state.status);
-  const checkStatus = useAuthStore(state => state.checkStatus);
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
-  if (status == "Pendiente") {
-    checkStatus();
-    return <p>Cargando</p>
-  }
 
-  if (status == "NoAutorizado") {
-    return <Navigate to="/login" />
-  }
-
-  const siderStyle: React.CSSProperties = {
-    overflow: 'auto',
-    height: '100vh',
-    position: 'sticky',
-    insetInlineStart: 0,
-    top: 0,
-    bottom: 0,
-    scrollbarWidth: 'thin',
-    scrollbarGutter: 'stable',
-  };
+  // const siderStyle: React.CSSProperties = {
+  //   overflow: 'auto',
+  //   height: '100vh',
+  //   position: 'sticky',
+  //   insetInlineStart: 0,
+  //   top: 0,
+  //   bottom: 0,
+  //   scrollbarWidth: 'thin',
+  //   scrollbarGutter: 'stable',
+  // };
 
   const menuItems: MenuItem[] = [
     {
@@ -111,11 +99,11 @@ export const LayoutDashboard = () => {
 
   return (
     <Layout >
-      <Sider breakpoint="lg" collapsedWidth="0" theme="light" >
+      <Sider theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} >
         <figure className="nav__picture">
           <img className="nav__logo" src={logo} alt="logo" />
         </figure>
-        <Menu mode="inline" items={menuItems} />
+        <Menu mode="inline" theme="light" items={menuItems} />
       </Sider>
       <Layout style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'auto' }}>
         <Header />

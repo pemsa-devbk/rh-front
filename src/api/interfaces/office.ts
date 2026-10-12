@@ -1,4 +1,5 @@
 import { Enterprise } from "./enterprise";
+import { DefaultOptionType } from "./general";
 
 export interface Office {
     office_id: number;
@@ -15,7 +16,7 @@ export interface Office {
 
 export interface FormOffice {
     name: string;
-    enterprise: {label: string, value: string};
+    enterprise: DefaultOptionType<string>;
 }
 export type CreateOfficeDto = Omit<FormOffice, 'enterprise'>;
 export type UpdateOfficeDTO = Partial<CreateOfficeDto>;

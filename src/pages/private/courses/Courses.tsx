@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { QueryParams } from '../../../api/interfaces/queryParams';
-import { Button, Col, DatePicker, Flex, notification, Row, Skeleton, Space, Typography } from 'antd';
+import { Button, Col, DatePicker, Flex, notification, Row, Skeleton, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { TableCourses } from './componets/TableCourses';
 import { GetColumns } from './get_columns';
@@ -98,13 +98,7 @@ export const Courses = () => {
                 onClose={() => setStateModal('view_users')}
                 open={openModal.view_users}
                 titleKey='name'
-                descriptionKey={(user) => user.name || 'Sin correo'}
                 dataSource={dataUsers}
-                extraButtons={
-                    <Space>
-                        <Button onClick={() => setStateModal('view_users')}>Cancel</Button>
-                    </Space>
-                }
                 renderActions={(user) =>
                     selectedCourse ? (
                         <OptionsForUser

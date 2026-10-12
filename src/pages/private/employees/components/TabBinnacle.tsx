@@ -42,14 +42,14 @@ export const TabBinnacle = ({ employeeID }: Props) => {
                         <Timeline style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 5 }} mode='left' items={dataModified?.pages.flatMap(page => page.data.map(mov => ({
                             children: `${mov.type} por el usuario: ${mov.modifier_name}`,
                             color: (mov.type == 'Alta') ? 'blue' : (mov.type == 'Baja') ? 'red' : (mov.type == 'Edición') ? 'gray' : 'green',
-                            label: dayjs(mov.created_at).format('ddd d MMM [de] YYYY[, a las] hh:mm A')
+                            label: dayjs(mov.created_at).format('ddd DD MMM [de] YYYY[, a las] hh:mm A')
                         })
                         ))} />
                         :
                         <Timeline style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 5 }} mode='left' items={dataModifier?.pages.flatMap(page => page.data.map(mov => ({
                             children: `${mov.type} al usuario: ${mov.modified_name}`,
                             color: (mov.type == 'Alta') ? 'blue' : (mov.type == 'Baja') ? 'red' : (mov.type == 'Edición') ? 'gray' : 'green',
-                            label: dayjs(mov.created_at).format('ddd d MMM [de] YYYY[, a las] hh:mm A')
+                            label: dayjs(mov.created_at).format('ddd DD MMM [de] YYYY[, a las] hh:mm A')
                         })
                         ))} />
                 }

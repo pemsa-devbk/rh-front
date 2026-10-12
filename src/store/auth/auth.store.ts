@@ -1,69 +1,54 @@
 import { StateCreator, create } from "zustand";
-import { devtools, persist } from 'zustand/middleware'
-import { instance } from "../../api/rh";
-import Swal from "sweetalert2";
+import { devtools } from 'zustand/middleware'
 import { User } from "../../api/interfaces/user";
 
 
-type Status = "Pendiente" | "Logueado" | "NoAutorizado"
-
-
 interface AuthState {
-    status: Status;
-    token?: string;
-    user?: User;
-    login: (user_id: string, password: string) => Promise<void>;
-    checkStatus: () => Promise<void>;
+    user: User | null;
+    token: string | null;
+    status: 'Pendiente' | 'Autorizado' | 'NoAutorizado';
+
+    login: (user: User, token: string) => void;
+    refreshUser: (user: User) => void;
+    setToken: (token: string) => void;
+    setCheckingAuth: (
+        status: 'Pendiente' | 'Autorizado' | 'NoAutorizado'
+    ) => void;
     logOut: () => void;
 }
 
 
-const storeApi: StateCreator<AuthState> = (set, get) => ({
+const storeApi: StateCreator<AuthState> = (set, _) => ({
     status: 'Pendiente',
-    token: undefined,
-    user: undefined,
-    
-    login: async (user_id, password) => {
-        try {
-            const { data } = await instance.post<{ token: string, user: User }>('auth/login', { user_id, password });
-            return set({
-                status: 'Logueado',
-                user: data.user, token: data.token
-            })
-        } catch (error) {
-            Swal.fire("Credenciales no válidas")
-        }
+    token: null,
+    user: null,
+
+    login: (user, token) => {
+        return set({
+            status: 'Autorizado',
+            user, token
+        })
+    },
+    refreshUser: (user) => {
+        return set({
+            user,
+            status: 'Autorizado'
+        })
+    },
+    setToken: (token) => {
+        set({
+            token
+        })
     },
 
-    checkStatus: async () => {
-        if (!get().token) {
-            return set({
-                status: 'NoAutorizado'
-            })
-        }
-        try {
-            const { data } = await instance.get<{ token: string, user: User }>('auth/check');
-            
-            return set({
-                status: 'Logueado',
-                user: data.user, token: data.token
-            })
-
-        } catch (error) {
-            set({
-                status: "NoAutorizado",
-                user: undefined,
-                token: undefined
-            })
-
-        }
-
+    setCheckingAuth: (status) => {
+        return set({ status });
     },
     logOut: () => {
         set({
             status: "NoAutorizado",
-            token: undefined,
-            user: undefined
+            token: null,
+            user: null
         })
     }
 
@@ -71,18 +56,6 @@ const storeApi: StateCreator<AuthState> = (set, get) => ({
 
 export const useAuthStore = create<AuthState>()(
     devtools(
-        persist(
-            storeApi,
-            {
-                name: 'infoLog',
-                partialize: (state) => {
-                    return ({
-                        token: state.token,
-                        user: state.user
-                    })
-                },
-            }
-        )
-
+        storeApi,
     )
 )

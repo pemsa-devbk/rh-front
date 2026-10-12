@@ -1,46 +1,60 @@
-import { useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/auth/auth.store";
-import { Avatar, Button, Flex, Layout, theme } from "antd";
-import { ExclamationCircleTwoTone } from "@ant-design/icons";
+import { Avatar, Dropdown, Flex, Image, Layout, MenuProps, theme } from "antd";
+import { base_url } from "../api/rh";
+import { fallbackImage } from "../helpers/fallback-img";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function Header() {
-    const params = useLocation();
-    const user = useAuthStore(state => state.user);
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+  const user = useAuthStore(state => state.user);
+  const logOuth = useAuthStore(state => state.logOut);
+  const navigate = useNavigate();
 
-    return (
-        <Layout.Header style={{ padding: 0, background: colorBgContainer }} >
-            <Flex justify="space-between">
-                <div>
-                    <h2>{
-                        params.pathname.includes('usuarios')
-                            ? 'Gestion de usuarios'
-                            : params.pathname.includes('registro')
-                                ? 'Creación de usuario usuario'
-                                :
-                                params.pathname.includes('editarUsuario')
-                                    ? 'Edición de usuario'
-                                    :
-                                    params.pathname.includes('mostar')
-                                        ? 'Información de usuario'
-                                        :
-                                        params.pathname.includes('contacto')
-                                            ?
-                                            'Contactos'
-                                            :
-                                            'Pagina de incio'
-                    }
-                    </h2>
-                </div>
-                <Flex align="center" gap={5} style={{padding: '0 1rem'}}>
-                    <Avatar>{user?.name.charAt(0)}</Avatar>
-                    <p>{user?.name}</p>
-                    <Button  danger icon={<ExclamationCircleTwoTone twoToneColor={'#f00'} />} />
-                </Flex>
-            </Flex>
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
-        </Layout.Header>
-    );
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: 'Mi cuenta',
+      disabled: true
+    },
+    {
+      type: 'divider',
+    },
+    {
+      key: '2',
+      label: 'Perfil',
+      onClick: () => navigate(`me`)
+    },
+    {
+      key: '3',
+      label: 'Cambiar contraseña',
+      onClick: () => navigate(`change-password`)
+    },
+    {
+      key: '4',
+      label: 'Cerrar sesión',
+      danger: true,
+      onClick: logOuth
+    },
+  ];
+
+  return (
+    <Layout.Header style={{ padding: 0, background: colorBgContainer }} >
+      <Flex justify="space-between" align="center" style={{ height: '100%', padding: 10 }}>
+        <div>
+
+        </div>
+        <Flex align="center" gap={5} style={{ padding: '0 1rem' }}>
+          <Dropdown menu={{ items }}>
+            <Avatar src={<Image preview={false} src={`${base_url}employees/${user?.user_id}/profile`} fallback={fallbackImage} />}></Avatar>
+          </Dropdown>
+          <p>{user?.name.split(' ')[0]}</p>
+        </Flex>
+      </Flex>
+    </Layout.Header>
+  );
 }

@@ -7,6 +7,7 @@ export const useAddressByEmployee = (employeeID: string, enabled: boolean = true
         queryKey: ['employee', employeeID, 'address'],
         queryFn: () => getByEmployee(employeeID),
         staleTime: 1000 * 30,
+        retry: false,
         enabled
     })
 }

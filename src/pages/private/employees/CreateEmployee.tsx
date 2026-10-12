@@ -3,7 +3,6 @@ import { useRef, useState } from 'react'
 import { Button, Col, Flex, message, Row, Steps, Typography } from 'antd';
 import { CreateEmployeeDTO, EmployeForm } from '../../../api/interfaces/employee';
 import { useCreateEmployee } from '../../../hooks/employee';
-import { instance } from '../../../api/rh';
 import { useNavigate } from 'react-router-dom';
 import { StepAddress } from '../address/components/StepAddress';
 import { StepBanking } from '../bank/components/StepBanking';
@@ -11,6 +10,7 @@ import { StepContract } from '../contract/components/StepContract';
 import { StepEmployee } from './components/StepEmployee';
 import { StepMedical } from '../medical/components/StepMedical';
 import { StepEnterpriseInformation } from '../enterprise-info/components/StepEnterpriseInformation';
+import { uploadFile } from '../../../api/file';
 
 type WizardData = Partial<EmployeForm>;
 export interface FormStepRef {
@@ -19,7 +19,7 @@ export interface FormStepRef {
 }
 
 
-type ImageKey = 'FT_PR' | 'FR_PR';
+type ImageKey = 'IMG_FOTO' | 'IMG_FIRMA';
 type ImagesState = Record<ImageKey, File | undefined>;
 
 export const CreateEmployee = () => {
@@ -27,21 +27,19 @@ export const CreateEmployee = () => {
     const [messageApi, contextMessage] = message.useMessage();
     const [formData, setFormData] = useState<WizardData>({});
     const formRef = useRef<FormStepRef>(null);
-    const [images, setImages] = useState<ImagesState>({ FT_PR: undefined, FR_PR: undefined });
+    const [images, setImages] = useState<ImagesState>({ IMG_FOTO: undefined, IMG_FIRMA: undefined });
     const [isUploadingImages, setIsUploadingImages] = useState(false);
     const navigate = useNavigate();
 
-    const uploadImage = async (fileId: number, key: ImageKey, file: File, userId: string) => {
-        const formImage = new FormData();
-        formImage.append(key, file);
-        // Ajusta el endpoint según tu API
-        await instance.post(`files/${fileId}/employees/${userId}`, formImage);
-    };
     const submitImages = async (userId: string) => {
         const entries = Object.entries(images) as [ImageKey, File | undefined][];
         const uploads = entries
             .filter((entry): entry is [ImageKey, File] => entry[1] !== undefined)
-            .map(([key, file], idx) => uploadImage(idx+1, key, file, userId));
+            .map(([key, file]) => {
+                const formData = new FormData();
+                formData.append(key, file);
+                return uploadFile({employeeID: userId, body: formData})
+            });
 
         await Promise.all(uploads);
     };
@@ -54,8 +52,8 @@ export const CreateEmployee = () => {
             await submitImages(userId);
             messageApi.success('Empleado creado correctamente');
             setFormData({});
-            setImages({ FT_PR: undefined, FR_PR: undefined });
-            navigate('/empleados'); // Ajusta la ruta según tu app
+            setImages({ IMG_FOTO: undefined, IMG_FIRMA: undefined });
+            navigate(`/employees/${userId}`); 
         } catch (error) {
             messageApi.error('El empleado fue creado pero ocurrió un error al subir las imágenes');
         } finally {
@@ -69,7 +67,7 @@ export const CreateEmployee = () => {
 
 
     const handleNext = (values: Partial<EmployeForm>) => {
-        if (!images.FR_PR || !images.FT_PR) {
+        if (!images.IMG_FOTO || !images.IMG_FIRMA) {
             return messageApi.open({ type: 'error', content: 'Las imágenes son obligatorias' });
         }
         setFormData((prev) => ({ ...prev, ...values }));

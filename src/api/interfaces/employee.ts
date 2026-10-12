@@ -44,6 +44,7 @@ export interface Employee extends User {
     rfc: string;
     cuip: string | null;
     num_children: number;
+    
     vacation_days: number;
     boss_id: string | null;
     boss_name: string | null;
@@ -163,6 +164,7 @@ export interface UpdateEmployeeForm {
     name?: string;
     gender?: Gender;
     birthdate?: string;
+
     curp?: string;
     rfc?: string;
     cuip?: string | null;
@@ -212,4 +214,10 @@ export interface UpdateEmployeeDTO {
     date_entry?: string;
     position_id?: number;
 
+}
+
+export interface UpdatePasswordDTO {
+    old_password: string;
+    password: string;
+    confirm_password: string;
 }

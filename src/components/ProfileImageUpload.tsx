@@ -51,7 +51,7 @@ export const ProfileImageUpload = ({ aspect, showGrid, showReset, showRotationSl
         setRotation(0);
         setZoom(1);
     };
-    const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
         setCroppedAreaPixels(croppedAreaPixels);
     }, []);
 
@@ -103,7 +103,7 @@ export const ProfileImageUpload = ({ aspect, showGrid, showReset, showRotationSl
                 `${nameWithoutExt}.${extension}`,
                 { type: imageInfo.mimeType }
             );
-            handleImage('FT_PR', finalImageFile);
+            handleImage('IMG_FOTO', finalImageFile);
 
             // * Poner imagen
             const reader = new FileReader();

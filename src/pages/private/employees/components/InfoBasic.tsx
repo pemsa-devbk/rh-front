@@ -36,7 +36,7 @@ export const InfoBasic = ({ employeeID, openModal, modalkey }: Props) => {
                 { label: 'RFC', children: data?.rfc },
                 { label: 'CUIP', children: data?.cuip },
                 { label: 'Numero de hijos', children: data?.num_children },
-                { label: 'Estado civil', children: (data?.marital_status === MaritalStatus.SINGLE) ? 'Soltero(a)' : (data?.marital_status === MaritalStatus.MARRIED) ? 'Casado(a)' : (data?.marital_status === MaritalStatus.DIVORCED) ? 'Divorciado(a)' : (data?.marital_status === MaritalStatus.WIDOWER) ? 'Viudo(a)' : 'Concubinato' },
+                { label: 'Estado civil', children: !data.marital_status ? 'No asignado' :(data?.marital_status === MaritalStatus.SINGLE) ? 'Soltero(a)' : (data?.marital_status === MaritalStatus.MARRIED) ? 'Casado(a)' : (data?.marital_status === MaritalStatus.DIVORCED) ? 'Divorciado(a)' : (data?.marital_status === MaritalStatus.WIDOWER) ? 'Viudo(a)' : 'Concubinato' },
                 { label: 'Lugar de registro', children: data?.place_registration },
                 { label: 'CP CSF', children: data?.cp_csf },
                 { label: 'Pensión alimenticia', children: data?.have_alimony ? 'Si' : 'No' },

@@ -1,8 +1,6 @@
-import React from 'react'
 import { useParams } from 'react-router-dom';
 import { usePosition } from '../../../hooks/position';
 import { Col, Descriptions, Result, Row, Skeleton, Tabs } from 'antd';
-import { Users } from '../users/Users';
 import { Employees } from '../employees/Employees';
 import { EmployeeContext } from '../employees/hook/useColumns';
 

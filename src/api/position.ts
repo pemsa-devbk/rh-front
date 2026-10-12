@@ -45,6 +45,6 @@ export const update = async ({areaID,body, positionID}: { body: UpdatePositionDT
 }
 
 export const remove = async ({areaID,  positionID}:{positionID: number, areaID: number}) => {
-    const { data } = await instance.delete<Position>(`/areas/${areaID}/position/${positionID}`);
+    const { data } = await instance.delete<Position>(`/areas/${areaID}/positions/${positionID}`);
     return data;
 }

@@ -28,7 +28,7 @@ export const useColumns = ({ openModal, setSelectedOffice, context = OfficeQuery
     }, [openModal, setSelectedOffice]);
 
     const handleDelete = useCallback((office: Office) => {
-        mutate({ id: office.office_id, enterpriseID: office.enterprise_id });
+        mutate({ officeID: office.office_id, enterpriseID: office.enterprise_id });
     }, []);
 
     return useMemo<TableProps<Office>['columns']>( () => [

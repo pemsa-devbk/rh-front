@@ -34,6 +34,7 @@ export const InfoEmployee = ({ employeeID, openModal, modalKey }: Props) => {
                 { label: 'Fecha de ingreso', children:  dayjs(data?.date_entry).format('DD [de] MMMM [de] YYYY') },
                 { label: 'Salario', children: data?.salary },
                 { label: 'Uniforme', children: data?.have_uniform ? 'Si' : 'No' },
+                { label: 'Días de vacaciones', children: data?.vacation_days },
             ]}
         />
     )

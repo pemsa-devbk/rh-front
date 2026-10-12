@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useInfiniteCoursesByEmployee, useRemoveEmployeesToCourse, useUploadProof } from '../../../../hooks/course';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Divider, List, notification, Popconfirm, Tooltip, Typography, Upload } from 'antd';

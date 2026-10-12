@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useCancelHoliday, useInfiniteHolidaysByEmployee, useUploadProof } from '../../../../hooks/holiday';
 import { DrawerCreate } from './DrawerCreate';
 import { useModals } from '../../../../hooks/useModals';
-import { Button, Divider, List, notification, Popconfirm, Space, Tooltip, Typography, Upload } from 'antd';
+import { Badge, Button, Divider, Flex, List, notification, Popconfirm, Space, Tooltip, Typography, Upload } from 'antd';
 import { DownloadOutlined, PlusOutlined, QuestionCircleOutlined, StopOutlined, UploadOutlined } from '@ant-design/icons';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from '../../../../helpers/dayjs'
@@ -88,20 +88,45 @@ export const TabHoliday = ({ employeeID }: Props) => {
                                     cancelText="No"
                                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                                 >
-                                    <Button disabled={holiday.status === StatusHoliday.cancelado} size='small' variant='filled' color='red' icon={<StopOutlined />}></Button>
+                                    <Button disabled={holiday.status === StatusHoliday.CANCELADA} size='small' variant='filled' color='red' icon={<StopOutlined />}></Button>
                                 </Popconfirm>
                             ]}
                         >
                             <List.Item.Meta
-                                title={holiday.others.text}
-                                description={
-                                    <Space>
-                                        <Typography.Text>{holiday.comment}</Typography.Text>
-                                        <Divider type='vertical' />
-                                        <Typography.Text>{dayjs(holiday.created_at).format('YYYY-MM-DD')}</Typography.Text>
-                                    </Space>
+                                title={
+                                    <Flex justify='space-between'>
+                                        {holiday.others.text}
+                                        {
+                                            (holiday.status == StatusHoliday.SOLICITUD)
+                                                ? <Badge color='blue' text='En solicitud' />
+                                                : (holiday.status == StatusHoliday.APROBADA)
+                                                    ? <Badge color='lime' text='Aprobada' />
+                                                    : (holiday.status == StatusHoliday.RECHAZADA)
+                                                        ? <Badge color='volcano' text='Rechazada' />
+                                                        : (holiday.status == StatusHoliday.FINALIZADA)
+                                                            ? <Badge color='green' text='Finalizada' />
+                                                            : <Badge color='red' text='Cancelada' />
+                                        }
+                                    </Flex>
                                 }
-                                avatar={holiday.status}
+                                description={
+                                    <Flex>
+
+                                        <Space>
+                                            <Typography.Text>Fecha de creación: </Typography.Text>
+                                            <Typography.Text type='secondary'>{dayjs(holiday.created_at).format('YYYY-MM-DD')}</Typography.Text>
+                                            <Divider type='vertical' />
+                                            {
+                                                holiday.comment &&
+                                                <>
+                                                    <Typography.Text type='secondary'>Comentario:</Typography.Text>
+                                                    <Typography.Text> {holiday.comment}</Typography.Text>
+                                                </>
+                                            }
+                                        </Space>
+                                    </Flex>
+                                }
+
                             />
                         </List.Item>
                     )}

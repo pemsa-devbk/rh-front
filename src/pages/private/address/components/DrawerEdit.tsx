@@ -1,4 +1,3 @@
-import { CreateMedicalDTO } from '../../../../api/interfaces/medical';
 import { Button, Drawer, Form, Input, Select, Space } from 'antd';
 import { Employee } from '../../../../api/interfaces/employee';
 import { getUpdatedFields } from '../../../../helpers/getUpdateFields';
@@ -27,11 +26,13 @@ export const DrawerEdit = ({ onClose, open, employee, modalKey }: Props) => {
     });
 
     const handleFormSubmit = (values: AddressForm) => {
+        
         const format = {
             colony_id: values.colony.value,
             street: values.street, 
             references: values.references,
         }
+        // console.log(format);
         const dataToUpdate = getUpdatedFields(data!, format);
 
         if (Object.keys(dataToUpdate).length === 0) return;

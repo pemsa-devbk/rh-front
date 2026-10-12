@@ -9,7 +9,7 @@ interface Props {
     employee: Employee;
 }
 
-export const InfoEnterprise = ({ employeeID, employee, openModal }: Props) => {
+export const InfoEnterprise = ({ employeeID, openModal }: Props) => {
     const { data, error, isFetching } = useEnterpriseInformationByEmployee(employeeID);
 
     if (isFetching)

@@ -1,5 +1,5 @@
 ## Notas
-1. Componente tabla general
+1. Agregar tipo de busqueda en createColumnFilterText
 
 
 12/02/26

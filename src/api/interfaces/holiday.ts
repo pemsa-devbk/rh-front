@@ -12,11 +12,13 @@ export interface Holiday {
     }
 }
 
-export enum StatusHoliday {
-    pendiente = 0,
-    curso = 1,
-    cancelado = 2,
-    finalizada = 3,
+export enum  StatusHoliday {
+    SOLICITUD = 0,
+    APROBADA = 1,
+    RECHAZADA = 2,
+    CURSO = 3,
+    FINALIZADA = 4,
+    CANCELADA = 5
 }
 
 export interface HolidayResponseCreate{

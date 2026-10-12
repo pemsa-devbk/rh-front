@@ -138,7 +138,7 @@ export const StepEmployee = forwardRef<FormStepRef, Props>(({ onNext, initialVal
                             <Form.Item
                                 name='place_registration'
                                 label='Lugar de registro'
-                                rules={[{ required: true, message: 'El lugar de registro es obligatorio' }]}
+                                // rules={[{ required: true, message: 'El lugar de registro es obligatorio' }]}
                             >
                                 <Input />
                             </Form.Item>
